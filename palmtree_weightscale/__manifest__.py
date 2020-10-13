@@ -31,7 +31,7 @@
     'data': [
         'data/barcode_patterns.xml',
         'data/ir_sequence_data.xml',
-        # 'security/ir.model.access.csv',
+        'security/ir.model.access.csv',
         'views/barcode_settings.xml',
         'views/product.xml',
         'views/templates.xml',

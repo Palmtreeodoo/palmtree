@@ -77,9 +77,10 @@ class ProductPrices(models.TransientModel):
 
         values = {
 
-            'name': "Name of text file.txt",
+            'name': "plu.txt",
 
             # 'datas_fname': 'plu.txt',
+            # 'res_name': 'plu.txt',
 
             'res_model': 'ir.ui.view',
 
