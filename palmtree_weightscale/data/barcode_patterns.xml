@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!--    Barcode Pattern-->
+    <data noupdate="1">
+        <record id="barcode_rule_price_to_weight" model="barcode.rule">
+            <field name="name">Price to Weight Barcodes</field>
+            <field name="barcode_nomenclature_id" ref ="barcodes.default_barcode_nomenclature"/>
+            <field name="sequence">15</field>
+            <field name="type">price_to_weight</field>
+            <field name="encoding">any</field>
+            <field name="pattern">7.....{NNDDD}</field>
+        </record>
+
+        <record id ="barcode_rule_price_to_weight2" model="barcode.rule">
+            <field name="name">Price to Weight Barcodes</field>
+            <field name="barcode_nomenclature_id" ref="barcodes.default_barcode_nomenclature"/>
+            <field name="sequence">16</field>
+            <field name="type">price_to_weight</field>
+            <field name="encoding">any</field>
+            <field name="pattern">20.....{NNDDD}</field>
+        </record>
+        <record id="barcode_rule_price_to_piece" model="barcode.rule">
+            <field name="name">Price to Piece Barcodes</field>
+            <field name="barcode_nomenclature_id" ref="barcodes.default_barcode_nomenclature"/>
+            <field name="sequence">17</field>
+            <field name="type">price_to_piece</field>
+            <field name="encoding">any</field>
+            <field name="pattern">4.....{NNDDD}</field>
+        </record>
+    </data>
+
+</odoo>

@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_item_barcode_all,item.barcode.all,model_item_barcode,,0,0,0,0
+access_item_barcode_portal,item.barcode.portal,model_item_barcode,base.group_portal,0,0,0,0
+access_item_barcode_user,item.barcode.user,model_item_barcode,base.group_user,1,1,1,0
+access_item_barcodetwo_all,item.barcodetwo.all,model_item_barcodetwo,,0,0,0,0
+access_item_barcodetwo_portal,item.barcodetwo.portal,model_item_barcodetwo,base.group_portal,0,0,0,0
+access_item_barcodetwo_user,item.barcodetwo.user,model_item_barcodetwo,base.group_user,1,1,1,0
