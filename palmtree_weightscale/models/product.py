@@ -104,7 +104,7 @@ class ProductPrices(models.TransientModel):
 
         download_url = '/web/content/' + str(attachment_id.id) + '?download=True'
         # download_url = '/web/content/' + str(file) + '?download=True'
-        base_url = self.env['ir.config_parameter'].get_param('web.base.url')
+        base_url = self.sudo().env['ir.config_parameter'].get_param('web.base.url')
 
         # Return so it will download in your system return {
         return {
@@ -198,6 +198,8 @@ class ProductTemplate(models.Model):
         related_vals = {}
         if vals.get('plu'):
             related_vals['plu'] = vals['plu']
+        if vals.get('is_piece'):
+            related_vals['is_piece'] = vals['is_piece']
 
         if related_vals:
             product_template_id.write(related_vals)
