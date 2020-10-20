@@ -18,8 +18,25 @@
                     <div style="width: 90%; float: left; padding: 0px 10px; text-align:center;">
                         <!-- Company & Shop -->
                         <t t-if="widget.pos.company.name">
-                            <t t-esc="widget.pos.company.name"/><br />
+                            <b style="font-family: 'Times New Roman', Times, serif;font-size:18px"><t t-esc="widget.pos.company.name"/></b><br />
                         </t>
+                        <t t-if="widget.pos.company.street">
+                            <t t-esc="widget.pos.company.street"/>,
+                        </t>
+                        <t t-if="widget.pos.company.street2">
+                            <t t-esc="widget.pos.company.street2"/>,
+                        </t>
+                        <t t-if="widget.pos.company.city">
+                            <t t-esc="widget.pos.company.city"/><br />
+                        </t>
+                        <t t-if="widget.pos.company.state_id[1]">
+                            <t t-esc="widget.pos.company.state_id[1]"/><br />
+                        </t>
+                        <t t-if="widget.pos.company.country_id[1]">
+                            <t t-esc="widget.pos.company.country_id[1]"/><br />
+                        </t>
+
+
                         <t t-if="widget.pos.company.vat">
                             VAT: <t t-esc="widget.pos.company.vat"/><br />
                         </t>

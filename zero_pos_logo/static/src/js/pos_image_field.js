@@ -2,10 +2,12 @@ odoo.define("zero_pos_logo.image", function (require) {
     "use strict";
     var PosBaseWidget = require('point_of_sale.chrome');
     var screens = require('point_of_sale.screens');
+    var models = require('point_of_sale.models');
     var core = require('web.core');
 
     var QWeb = core.qweb;
     console.log("PosBaseWidget", PosBaseWidget)
+    models.load_fields('res.company', ['street', 'street2', 'city']);
     screens.ReceiptScreenWidget.include({
         render_receipt: function () {
             this._super(this);

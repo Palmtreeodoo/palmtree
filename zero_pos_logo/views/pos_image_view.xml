@@ -3,6 +3,7 @@
     <data>
         <template id="assets" inherit_id="point_of_sale.assets">
             <xpath expr="." position="inside">
+                <link rel="stylesheet" href="/zero_pos_logo/static/src/css/pos_receipt.css"/>
                 <script type="text/javascript" src="/zero_pos_logo/static/src/js/pos_image_field.js"></script>
             </xpath>
         </template>
