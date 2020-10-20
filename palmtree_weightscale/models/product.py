@@ -41,7 +41,7 @@ class ProductPrices(models.TransientModel):
                 'barcode':p.barcode,
                 'name':p.name,
                 'price':p.lst_price,
-                'piece': '1' if p.is_piece else '0',
+                'piece': '2' if p.is_piece else '1',
 
             }
 
@@ -122,7 +122,7 @@ class ProductPrices(models.TransientModel):
         file_pro = ''
         if prod_obj:
             for pro in prod_obj:
-                no = '1' if pro.is_piece else '0'
+                no = '2' if pro.is_piece else '1'
 
                 file_pro += str(pro.plu) + ',' + str(pro.barcode) + ',' + str(pro.name) + ',' + str(pro.lst_price) + ',' + str(no) + '\r\n'
 
