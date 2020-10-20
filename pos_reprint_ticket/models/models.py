@@ -128,7 +128,7 @@ class PosOrder(models.Model):
                             'name': tax.name,
                         }
                     else:
-                        details[child.id]['amount'] += round(tax.amount, 2)
+                        details[tax.id]['amount'] += round(total_tax, 2)
 
 
             tax_id = line.tax_ids_after_fiscal_position.ids
