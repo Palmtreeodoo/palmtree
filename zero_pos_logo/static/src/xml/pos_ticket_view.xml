@@ -58,27 +58,32 @@
                    Invoice Number: <t t-esc="order.name"/>
                     <br />
                 </div>
-                <br />
-
                 <div>
                     <div style="width: 100%; float: left; text-align:center;">
                         <!-- Date -->
                         <t t-esc="moment().format('L LT')"/><br />
                     </div>
-                    <div style="width: 50%; float: right; text-align:right;">
-                        <!-- Customer -->
-                        <t t-set="client" t-value="order.get_client()"/>
-                        <t t-if="client">
-                            <!-- <t t-esc="client['name']"/><br /> -->
+
+                </div>
+                <div style="width: 100%; float: left; text-align:left;font-size: small;">
+                    <!-- Customer -->
+                    <t t-set="client" t-value="order.get_client()"/>
+                    <t t-if="client">
+                        <br />
+                        Customer: <t t-esc="client['name']"/><br />
                             <!-- <t t-esc="client['street']"/><br /> -->
                             <!-- <t t-esc="client['mobile']"/><br /> -->
-                            <!-- <t t-esc="client['phone']"/><br /> -->
-                            <t t-if="client['vat']">
-                            VAT: <t t-esc="client['vat']"/><br />
-                            </t>
+                        <t t-if="client['phone']">
+                            Ph: <t t-esc="client['phone']"/><br />
                         </t>
-                    </div>
+                        <t t-if="client['vat']">
+                            VAT: <t t-esc="client['vat']"/>
+                        </t>
+                        <br />
+                    </t>
                 </div>
+
+                <br />
                 <br />
 
                 <!-- Header -->
@@ -92,15 +97,15 @@
                 <!-- Items -->
                 <table class='orderline'>
                     <colgroup>
-                        <col width='50%' />
-                        <col width='10%' />
-                        <!-- <col width='15%' /> -->
+                        <col width='35%' />
+                        <col width='20%' />
+                        <col width='5%' />
                         <col width='30%' />
                     </colgroup>
                     <tr style="border-bottom: 1px solid rgb(0, 0, 0); padding-top: 10px;">
                         <th>Name</th>
                         <th>Qty</th>
-                        <!-- <th>Price</th> -->
+                        <th>Unit</th>
                         <th style='text-align:right'>Price</th>
                     </tr>
                     <tr t-foreach="orderlines" t-as="orderline">
@@ -114,7 +119,10 @@
                             </t>
                         </td>
                         <td>
-                            <t t-esc="orderline.get_quantity_str_with_unit()"/>
+                            <t t-esc="orderline.get_quantity_str()"/>
+                        </td>
+                        <td>
+                            <t t-esc="orderline.get_unit().name"/>
                         </td>
                         <td style='text-align:right'>
                             <t t-esc="widget.format_currency(orderline.get_display_price())"/>

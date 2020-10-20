@@ -137,7 +137,7 @@ class PosOrder(models.Model):
             new_vals = {
                 'product_id': line.product_id.name,
                 'unit': line.product_uom_id.name,
-                'qty': line.qty,
+                'qty': '%.3f' % line.qty,
                 'price_unit': '%.2f' % line.price_unit,
                 'discount': '%.2f' % line.discount,
                 'price_subtotal': '%.2f' % line.price_subtotal,
