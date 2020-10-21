@@ -1,0 +1,27 @@
+<odoo>
+  <data>
+    <!-- added group to cash control page, order button and payment button-->
+    <record id="restrict_pos_session_amount" model="ir.ui.view">
+      <field name="name">restrict.session.amount</field>
+      <field name="model">pos.session</field>
+      <field name="inherit_id" ref="point_of_sale.view_pos_session_form"/>
+      <field name="arch" type="xml">
+        <xpath expr="//sheet/div/button[@name='action_view_order']" position="attributes">
+          <attribute name="groups">session_amount.view_pos_payment_details</attribute>
+        </xpath>
+        <xpath expr="//sheet/div/button[@name='action_show_payments_list']" position="attributes">
+          <attribute name="groups">session_amount.view_pos_payment_details</attribute>
+        </xpath>
+        <xpath expr="//sheet/notebook/page/group/group/div/group/field[@name='cash_register_total_entry_encoding']" position="attributes">
+          <attribute name="groups">session_amount.view_pos_payment_details</attribute>
+        </xpath>
+        <xpath expr="//sheet/notebook/page/group/group/div/group/field[@name='cash_register_balance_end']" position="attributes">
+          <attribute name="groups">session_amount.view_pos_payment_details</attribute>
+        </xpath>
+        <xpath expr="//sheet/notebook/page/div/group/field[@name='cash_register_difference']" position="attributes">
+          <attribute name="groups">session_amount.view_pos_payment_details</attribute>
+        </xpath>
+      </field>
+    </record>
+  </data>
+</odoo>
