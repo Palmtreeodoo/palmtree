@@ -97,26 +97,30 @@
                 <!-- Items -->
                 <table class='orderline'>
                     <colgroup>
-                        <col width='35%' />
+                        <col width='5%' />
+                        <col width='30%' />
                         <col width='20%' />
                         <col width='5%' />
                         <col width='30%' />
                     </colgroup>
                     <tr style="border-bottom: 1px solid rgb(0, 0, 0); padding-top: 10px;">
+                        <th>SL</th>
                         <th>Name</th>
                         <th>Qty</th>
                         <th>Unit</th>
                         <th style='text-align:right'>Price</th>
                     </tr>
+                    <t t-set="sl" t-value="0"/>
                     <tr t-foreach="orderlines" t-as="orderline">
-                        
+                        <t t-set="sl" t-value="sl+1"/>
+                        <td><t t-esc="sl" /></td>
                         <td>
                             <t t-esc="orderline.get_product().display_name"/>
-                             <t t-if="orderline.get_discount() > 0">
-                                <div class="pos-disc-font">
-                                    With a <t t-esc="orderline.get_discount()"/>% discount
-                                </div>
-                            </t>
+<!--                            <t t-if="orderline.get_discount() > 0">-->
+<!--                                <div class="pos-disc-font">-->
+<!--                                    With a <t t-esc="orderline.get_discount()"/>% discount-->
+<!--                                </div>-->
+<!--                            </t>-->
                         </td>
                         <td>
                             <t t-esc="orderline.get_quantity_str()"/>
@@ -134,11 +138,11 @@
                 <!-- Total -->
                 <table class='receipt-total'>
                     <colgroup>
-                        <col width='20%' />
                         <col width='30%' />
-                        <col width='30%' />
+                        <col width='15%' />
+                        <col width='35%' />
                     </colgroup>
-                    <tr>
+                    <tr style="font-family: 'Times New Roman', Times, serif;font-size:14px">
                         <td></td>
                         <td>Subtotal:</td>
                         <td style='text-align:right'>
@@ -146,7 +150,7 @@
                         </td>
                     </tr>
                     <t t-foreach="order.get_tax_details()" t-as="taxdetail">
-                        <tr>
+                        <tr style="font-family: 'Times New Roman', Times, serif;font-size:14px">
                             <td></td>
                             <td><t t-esc="taxdetail.name" /></td>
                             <td style='text-align:right'>
@@ -154,64 +158,80 @@
                             </td>
                         </tr>
                     </t>
-                    <tr>
+<!--                    <tr style="font-family: 'Times New Roman', Times, serif;font-size:15px">-->
+<!--                        <td></td>-->
+<!--                        <td>Discount:</td>-->
+<!--                        <td style='text-align:right'>-->
+<!--                            <t t-esc="widget.format_currency(order.get_total_discount())"/>-->
+<!--                        </td>-->
+<!--                    </tr>-->
+                    <tr class="emph" style="font-family: 'Times New Roman', Times, serif;font-size:18px">
                         <td></td>
-                        <td>Discount:</td>
+                        <td><b>Total:</b></td>
                         <td style='text-align:right'>
-                            <t t-esc="widget.format_currency(order.get_total_discount())"/>
+                            <b><t t-esc="widget.format_currency(order.get_total_with_tax())"/></b>
                         </td>
                     </tr>
-                    <tr class="emph">
-                        <td>Total:</td>
-                        <td colspan="2" style='text-align:right'>
-                            <t t-esc="widget.format_currency(order.get_total_with_tax())"/>
-                        </td>
-                    </tr>
-                </table>
-                <br/>
+                    <tr> <td colspan="3"><br/></td></tr>
 
-                <!-- Payment -->
-                <table class='receipt-paymentlines'>
-                    <colgroup>
-                        <col width='38%' />
-                        <col width='20%' />
-                        <col width='13%' />
-                        <col width='29%' />
-                    </colgroup>
                     <t t-foreach="paymentlines" t-as="line">
-                      <tr>
-                          <td>
-                              <t t-esc="line.name"/>
-                          </td>
-                          <td>
-                          </td>
-                          <td>
-                          </td>
-                          <td style='text-align:right'>
-                              <t t-esc="widget.format_currency(line.get_amount())"/>
-                          </td>
-                      </tr>
+                        <tr style="font-family: 'Times New Roman', Times, serif;font-size:14px" class='receipt-paymentlines'>
+                            <td></td>
+                            <td>
+                                <t t-esc="line.name"/>
+                            </td>
+                            <td style='text-align:right'>
+                                <t t-esc="widget.format_currency(line.get_amount())"/>
+                            </td>
+                        </tr>
                     </t>
-                </table>
-                <br/>
-
-                <!-- Change -->
-                <table class='receipt-change'>
-                    <colgroup>
-                        <col width='40%' />
-                        <col width='15%' />
-                        <col width='15%' />
-                        <col width='30%' />
-                    </colgroup>
-                    <tr><td>Change:</td>
-                         <td>
-                          </td>
-                          <td>
-                          </td>
+                    <tr style="font-family: 'Times New Roman', Times, serif;font-size:14px" class='receipt-change'>
+                        <td></td>
+                        <td>Change:</td>
                         <td style='text-align:right'>
                         <t t-esc="widget.format_currency(order.get_change())"/>
-                        </td></tr>
+                        </td>
+                    </tr>
                 </table>
+
+                <!-- Payment -->
+<!--                <table class='receipt-paymentlines'>-->
+<!--                    <colgroup>-->
+<!--                        <col width='20%' />-->
+<!--                        <col width='30%' />-->
+<!--                        <col width='30%' />-->
+<!--&lt;!&ndash;                        <col width='29%' />&ndash;&gt;-->
+<!--                    </colgroup>-->
+<!--                    <t t-foreach="paymentlines" t-as="line">-->
+<!--                      <tr style="font-family: 'Times New Roman', Times, serif;font-size:15px">-->
+<!--                          <td>-->
+<!--                          </td>-->
+<!--                          <td>-->
+<!--                              <t t-esc="line.name"/>-->
+<!--                          </td>-->
+<!--                          <td style='text-align:right'>-->
+<!--                              <t t-esc="widget.format_currency(line.get_amount())"/>-->
+<!--                          </td>-->
+<!--                      </tr>-->
+<!--                    </t>-->
+<!--                </table>-->
+
+<!--                &lt;!&ndash; Change &ndash;&gt;-->
+<!--                <table class='receipt-change'>-->
+<!--                    <colgroup>-->
+<!--                        <col width='20%' />-->
+<!--                        <col width='30%' />-->
+<!--                        <col width='30%' />-->
+<!--&lt;!&ndash;                        <col width='29%' />&ndash;&gt;-->
+<!--                    </colgroup>-->
+<!--                    <tr style="font-family: 'Times New Roman', Times, serif;font-size:15px">-->
+<!--                        <td></td>-->
+<!--                        <td>Change:</td>-->
+<!--                        <td style='text-align:right'>-->
+<!--                        <t t-esc="widget.format_currency(order.get_change())"/>-->
+<!--                        </td>-->
+<!--                    </tr>-->
+<!--                </table>-->
 
                 <!-- Footer -->
                 <t t-if="receipt.footer">
