@@ -35,6 +35,7 @@ class PosOrderReport(models.Model):
                 s.state AS state,
                 s.user_id AS user_id,
                 s.location_id AS location_id,
+                s.operating_unit_id as operating_unit_id,
                 s.company_id AS company_id,
                 s.sale_journal AS journal_id,
                 l.product_id AS product_id,
@@ -53,7 +54,7 @@ class PosOrderReport(models.Model):
             GROUP BY
                 s.id, s.date_order, s.partner_id,s.state, pt.categ_id,
                 s.user_id, s.location_id, s.company_id, s.sale_journal,
-                s.pricelist_id, s.account_move, s.create_date, s.session_id,
+                s.pricelist_id, s.account_move, s.create_date, s.session_id,s.operating_unit_id,
                 l.product_id,
                 pt.categ_id, pt.pos_categ_id,
                 p.product_tmpl_id,
