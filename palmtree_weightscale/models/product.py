@@ -222,20 +222,9 @@ class ProductProduct(models.Model):
     plu = fields.Char(string='PLU')
     is_piece = fields.Boolean(string='Piece', default=False)
 
-    # _sql_constraints = [
-    #     ('plu_uniq', 'unique(plu)', _("A plu can only be assigned to one product !")),
-    # ]
-    # _sql_constraints = [
-    #     ('plu_company_uniq', 'unique(plu,company_id)', _('The plu of the product must be unique per company !'))
-    # ]
-
-    @api.constrains('plu')
-    def _check_plu(self):
-        if self.plu:
-            product_rec = self.env['product.product'].search_count(
-                [('plu', '=', self.plu), ('company_id', '=', self.company_id.id)])
-            if product_rec > 1:
-                raise ValidationError(_('Exists ! plu of the product must be unique per company !'))
+    _sql_constraints = [
+        ('plu_uniq', 'Check(1=1)', _("A plu can only be assigned to one product !")),
+    ]
 
     # calls barcode sequence for updating barcode while creating product
     @api.model
@@ -245,3 +234,11 @@ class ProductProduct(models.Model):
             res['barcode'] = self.env['ir.sequence'].next_by_code('product.barcode')
 
         return res
+
+    @api.constrains('plu')
+    def _check_plu(self):
+        if self.plu:
+            product_rec = self.env['product.product'].search_count(
+                [('plu', '=', self.plu), ('company_id', '=', self.company_id.id)])
+            if product_rec > 1:
+                raise ValidationError(_('Exists ! plu of the product must be unique per company !'))
