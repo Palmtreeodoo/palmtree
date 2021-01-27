@@ -173,8 +173,10 @@ var SuperPosModel = models.PosModel.prototype;
                 var order_id = $(this).data('id');
                 var lines = [];
             	var payments = [];
+            	var hsn_tax=[];
             	var discount = 0;
             	var subtotal = 0;
+            	var change = 0;
             	var order_new = null;
             	var receipt ={};
             	var tax =[];
@@ -186,51 +188,122 @@ var SuperPosModel = models.PosModel.prototype;
             	}
             	// getting order details from pos_order model by calling get_orderlines() function
             	if(order_id){
-                    rpc.query({
-                        model: 'pos.order',
-                        method: 'get_orderlines',
-                        args: [order_id]
-                    }).then(function (result) {
-                        lines = result[0];
-                		payments = result[2];
-                		discount = result[1];
-                		order = result[4];
-                		tax = result[5];
-                		subtotal=result[6];
-                		var cashier = self.pos.cashier || self.pos.user;
-                        var company = self.pos.company;
-                		receipt['header'] = self.pos.config.receipt_header || '';
-                        receipt['footer'] = self.pos.config.receipt_footer || '';
-                        receipt['curr_user'] = cashier ? cashier.name : null
-                        receipt['shop'] = self.pos.shop;
-                        receipt['company'] = {
-                            email: company.email,
-                            website: company.website,
-                            company_registry: company.company_registry,
-                            contact_address: company.partner_id[1],
-                            vat: company.vat,
-                            name: company.name,
-                            phone: company.phone,
-                            logo: self.pos.company_logo_base64,
-                        };
-                        // rendering data to template
-                        $('.pos-receipt-container').html(QWeb.render('PosTicket3', {
-                            widget:self,
-                    		order: order,
-                    		change: result[3],
-                    		receipt:receipt,
-                    		orderlines: lines,
-                    		discount_total: discount,
-                    		paymentlines: payments,
-                    		taxlines:tax,
-                    		pos:self.pos,
-                    		subtotal:subtotal,
-                    		a2 : window.location.origin + '/web/image?model=pos.config&field=image&id='+self.pos.config.id,
+            	    if(self.pos.config.use_custom_receipt){
+            	        rpc.query({
+                            model: 'pos.order',
+                            method: 'get_orderlines',
+                            args: [order_id]
+                        }).then(function (result) {
+                            lines = result[0];
+                            discount = result[1];
+                            payments = result[2];
+                            change = result[3]
+                            order = result[4];
+                            tax = result[5];
+                            subtotal=result[6];
+                            hsn_tax=result[7];
+                            var cashier = self.pos.cashier || self.pos.user;
+                            var company = self.pos.company;
+                            receipt['header'] = self.pos.config.receipt_header || '';
+                            receipt['footer'] = self.pos.config.receipt_footer || '';
+                            receipt['curr_user'] = cashier ? cashier.name : null
+                            receipt['shop'] = self.pos.shop;
+                            var current = new Date();
+                            receipt['date'] = current.toLocaleString();
+                            receipt['company'] = {
+                                email: company.email,
+                                website: company.website,
+                                company_registry: company.company_registry,
+                                contact_address: company.partner_id[1],
+                                vat: company.vat,
+                                name: company.name,
+                                phone: company.phone,
+                                logo: self.pos.company_logo_base64,
+                            };
+
+                            // rendering data to template
+
+                            var receipt_design_id = self.pos.config.pos_receipt_design_reprint_id[0]
+                            var receipt_design = self.pos.db.receipt_by_id[receipt_design_id].receipt_design
+
+                            var data = {
+                                widget:self,
+                                order: order,
+                                change: result[3],
+                                receipt:receipt,
+                                orderlines: lines,
+                                discount_total: discount,
+                                paymentlines: payments,
+                                taxlines:tax,
+                                pos:self.pos,
+                                subtotal:subtotal,
+                                change: change,
+                                hsn_tax: hsn_tax,
+                                a2 : window.location.origin + '/web/image?model=pos.config&field=image&id='+self.pos.config.id,
+
+                            };
+
+                            var parser = new DOMParser();
+                            var xmlDoc = parser.parseFromString(receipt_design,"text/xml");
+
+                            var s = new XMLSerializer();
+                            var newXmlStr = s.serializeToString(xmlDoc);
+
+		                    //Works using the DOMParser
+                            var qweb = new QWeb2.Engine();
+                            qweb.add_template('<templates><t t-name="receipt_design">'+newXmlStr+'</t></templates>');
+                            var receipt_print = qweb.render('receipt_design',data) ;
+                            $('.pos-receipt-container').html(receipt_print);
+                            self.gui.show_screen("reprint_ticket");
+                        });
+            	    }
+            	    else{
+            	        rpc.query({
+                            model: 'pos.order',
+                            method: 'get_orderlines',
+                            args: [order_id]
+                        }).then(function (result) {
+                            lines = result[0];
+                            payments = result[2];
+                            discount = result[1];
+                            order = result[4];
+                            tax = result[5];
+                            subtotal=result[6];
+                            var cashier = self.pos.cashier || self.pos.user;
+                            var company = self.pos.company;
+                            receipt['header'] = self.pos.config.receipt_header || '';
+                            receipt['footer'] = self.pos.config.receipt_footer || '';
+                            receipt['curr_user'] = cashier ? cashier.name : null
+                            receipt['shop'] = self.pos.shop;
+                            receipt['company'] = {
+                                email: company.email,
+                                website: company.website,
+                                company_registry: company.company_registry,
+                                contact_address: company.partner_id[1],
+                                vat: company.vat,
+                                name: company.name,
+                                phone: company.phone,
+                                logo: self.pos.company_logo_base64,
+                            };
+
+                            $('.pos-receipt-container').html(QWeb.render('PosTicket3', {
+                                widget:self,
+                                order: order,
+                                change: result[3],
+                                receipt:receipt,
+                                orderlines: lines,
+                                discount_total: discount,
+                                paymentlines: payments,
+                                taxlines:tax,
+                                pos:self.pos,
+                                subtotal:subtotal,
+                                a2 : window.location.origin + '/web/image?model=pos.config&field=image&id='+self.pos.config.id,
 
 
-                        }));
-                        self.gui.show_screen("reprint_ticket");
-                    });
+                            }));
+                            self.gui.show_screen("reprint_ticket");
+                        });
+            	    }
                 }
             	contents.innerHTML = "";
                 $('.searchbox input').val("");

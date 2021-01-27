@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "POS Reprint Ticket",
+    'name': "POS Multi Barcode",
 
     'summary': """
-        Allows cashier to take reprint of order in POS""",
+        Pos Multi Barcode module supports to search a product with multi barcode on POS.""",
 
     'description': """
-        This module support to search previous orders and take reprint
+        Setup multi barcode in backend at product, then you can scan multi barcode on POS.
     """,
 
-    'author': "Loyal IT Solutions",
+    'author': "Loyal IT Solutions Pvt Ltd",
     'website': "http://www.loyalitsolutions.com",
 
     # Categories can be used to filter modules in modules listing
@@ -19,18 +19,13 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'point_of_sale', 'pos_different_receipt_design'],
+    'depends': ['base', 'product', 'point_of_sale'],
 
     # always loaded
     'data': [
-        # 'security/ir.model.access.csv',
-        'data/pos_receipt_data.xml',
+        'security/ir.model.access.csv',
         'views/views.xml',
-        'views/config_view.xml',
         'views/templates.xml',
-    ],
-    'qweb': [
-        'static/src/xml/reprint.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

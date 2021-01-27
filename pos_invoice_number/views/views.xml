@@ -1,0 +1,103 @@
+<odoo>
+    <data>
+        <record id="pos_config_receipt_invoice_number" model="ir.ui.view">
+            <field name="name">Pos Receipt Invoice Number</field>
+            <field name="model">pos.config</field>
+            <field name="inherit_id" ref="point_of_sale.pos_config_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@id='order_reference']" position="after">
+                    <div class="col-12 col-lg-6 o_setting_box">
+                        <div class="o_setting_left_pane">
+                            <field name="show_invoice_number"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <label for="show_invoice_number"/>
+                            <div class="text-muted">
+                                Show invoice number
+                            </div>
+                            <div class="content-group mt16" attrs="{'invisible': [('show_invoice_number', '=', False)]}">
+                                <field name="invoice_sequence_id"
+                                       attrs="{'required': [('show_invoice_number', '=', True)]}"/>
+                            </div>
+                        </div>
+                    </div>
+
+<!--                    <div class="content-group mt16">-->
+
+                        <!--                        <div>-->
+                        <!--                            <label string="Invoice prefix" for="invoice_prefix" class="col-lg-3 o_light_label"/>-->
+                        <!--                            <field name="invoice_prefix"/>-->
+                        <!--                        </div>-->
+                        <!--                        <div>-->
+                        <!--                            <label string="Next Number" for="invoice_seq" class="col-lg-3 o_light_label"/>-->
+                        <!--                            <field name="invoice_seq"/>-->
+                        <!--                        </div>-->
+                        <!--                        <div>-->
+                        <!--                            <label string="Sequence Size" for="seq_size" class="col-lg-3 o_light_label"/>-->
+                        <!--                            <field name="seq_size"/>-->
+                        <!--                        </div>-->
+
+<!--                    </div>-->
+                </xpath>
+            </field>
+        </record>
+
+        <record id="pos_order_receipt_invoice_number" model="ir.ui.view">
+            <field name="name">Pos Order Receipt Invoice Number</field>
+            <field name="model">pos.order</field>
+            <field name="inherit_id" ref="point_of_sale.view_pos_pos_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='extra']/group/group/field[@name='pos_reference']" position="after">
+                    <field name="pos_invoice_number"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="pos_order_receipt_invoice_number_tree_view" model="ir.ui.view">
+            <field name="name">Pos Order Receipt Invoice Number</field>
+            <field name="model">pos.order</field>
+            <field name="inherit_id" ref="point_of_sale.view_pos_order_tree"/>
+            <field name="arch" type="xml">
+                <field name="pos_reference" position="after">
+                    <field name="pos_invoice_number"/>
+
+                </field>
+            </field>
+        </record>
+
+        <record id="pos_order_receipt_invoice_number_filter_view" model="ir.ui.view">
+            <field name="name">Pos Order Receipt Invoice Number</field>
+            <field name="model">pos.order</field>
+            <field name="inherit_id" ref="point_of_sale.view_pos_order_filter"/>
+            <field name="arch" type="xml">
+                <field name="pos_reference" position="after">
+                    <field name="pos_invoice_number"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="account_move_receipt_invoice_number" model="ir.ui.view">
+            <field name="name">Pos Order Receipt Invoice Number</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group/group/field[@name='ref']" position="after">
+                    <field name="pos_invoice_number"/>
+
+                </xpath>
+            </field>
+        </record>
+
+        <record id="account_move_receipt_invoice_number_tree_view" model="ir.ui.view">
+            <field name="name">Pos Order Receipt Invoice Number</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_invoice_tree"/>
+            <field name="arch" type="xml">
+                <field name="ref" position="after">
+                    <field name="pos_invoice_number"/>
+
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>

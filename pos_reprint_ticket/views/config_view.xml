@@ -1,0 +1,17 @@
+<odoo>
+  <data>
+
+    <record id="pos_config_view_form_inherit_pos_receipt_reprint_design" model="ir.ui.view">
+      <field name="name">pos.config.form.inherit.pos.receipt.reprint.design</field>
+      <field name="model">pos.config</field>
+      <field name="inherit_id" ref="pos_different_receipt_design.pos_config_view_form_inherit_pos_receipt_design" />
+      <field name="arch" type="xml">
+        <xpath expr="//div[@id='custom_receipt']/div[2]/div[2]" position="after">
+          <div class="content-group mt16" attrs="{'invisible': [('use_custom_receipt', '=', False)]}">
+            <field name="pos_receipt_design_reprint_id" attrs="{'required': [('use_custom_receipt', '=', True)]}" placeholder="reprint"/>
+          </div>
+        </xpath>
+      </field>
+    </record>
+  </data>
+</odoo>

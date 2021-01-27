@@ -13,6 +13,8 @@ class PosOrder(models.Model):
         discount = 0
         subtotal = 0
         result = []
+        hsn_tax = {}
+        list_of_tax = []
         order = self.env['pos.order'].sudo().search([('id', '=', ref)], limit=1)
         lines = self.env['pos.order.line'].search([('order_id', '=', ref)])
         # session = self.env['pos.session'].search([('session_id', '=', self.session_id)])
@@ -28,6 +30,7 @@ class PosOrder(models.Model):
             order_details = {
                 'state_id': o.partner_id.state_id.name if o.partner_id.state_id.name else " ",
                 'vat': o.partner_id.vat if o.partner_id.vat else False,
+                'pos_invoice_number': o.pos_invoice_number if o.pos_invoice_number else False,
                 'street': o.partner_id.street if o.partner_id.street else " ",
                 'city': o.partner_id.city if o.partner_id.city else " ",
                 'date_order': str(o.date_order),
@@ -41,15 +44,17 @@ class PosOrder(models.Model):
                 'name': o.pos_reference,
                 'pos_reference': o.pos_reference,
                 'tot_amount': o.amount_total,
+                'amount_paid': o.amount_paid,
                 'tot_tax': o.amount_tax,
                 'tot_without_tax': o.amount_total - o.amount_tax,
+                'fiscal_position': o.fiscal_position_id.id if o.fiscal_position_id.id else False,
                 # 'loyalty_points': o.partner_id.loyalty_points if o.partner_id else 0,
                 # 'ean13_barcode': o.ean13_barcode if o.ean13_barcode else 0,
                 # 'ean':barcode.get('ean13', o.ean13_barcode, writer=ImageWriter())
 
             }
             for payment in o.payment_ids:
-                if o.amount_total>0:
+                if o.amount_total > 0:
                     if payment.amount > 0:
                         payment_dict = {
                             'name': payment.payment_method_id.name if payment.payment_method_id.name else " ",
@@ -101,6 +106,25 @@ class PosOrder(models.Model):
             #         # details[tax_line.tax_id.id]['taxable'] += round(tax_line.base, 2)
 
         for line in lines:
+            fpos = line.order_id.fiscal_position_id
+            tax_ids_after_fiscal_position = fpos.map_tax(line.tax_ids, line.product_id,
+                                                         line.order_id.partner_id) if fpos else line.tax_ids
+            price = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
+            taxes = tax_ids_after_fiscal_position.compute_all(price, line.order_id.pricelist_id.currency_id, line.qty,
+                                                              product=line.product_id, partner=line.order_id.partner_id)
+            for tax in taxes['taxes']:
+                if tax['id'] not in hsn_tax:
+                    tax_name = tax['name']
+                    hsn_tax[tax['id']] = {
+                        'amount': round(tax['amount'], 2),
+                        'tax_name': tax_name,
+                        'kfc': True if 'kfc' in tax_name.lower() else False,
+                        'cess': True if 'cess' in tax_name.lower() else False,
+                    }
+                else:
+                    hsn_tax[tax['id']]['amount'] += round(tax['amount'], 2)
+
+
             total_tax = line.price_subtotal_incl - line.price_subtotal
             for tax in line.tax_ids_after_fiscal_position:
                 if tax.children_tax_ids:
@@ -132,10 +156,12 @@ class PosOrder(models.Model):
 
 
             tax_id = line.tax_ids_after_fiscal_position.ids
-            # tax_name = self.env["account.tax"].browse(tax_id).name if line.tax_ids else "None"
+            tax_name = self.env["account.tax"].browse(tax_id).name if line.tax_ids else " "
 
             new_vals = {
                 'product_id': line.product_id.name,
+                'hsn': line.product_id.l10n_in_hsn_code,
+                'tax_name': tax_name,
                 'unit': line.product_uom_id.name,
                 'qty': '%.3f' % line.qty,
                 'price_unit': '%.2f' % line.price_unit,
@@ -158,7 +184,13 @@ class PosOrder(models.Model):
         for tax in details:
             detail.append({'amount': round(float(details[tax]['amount']), 2), 'name': details[tax]['name']})
 
-        return [result, discount, payment_lines, change, order_details, detail, subtotal]
+        for tax in hsn_tax:
+            list_of_tax.append({'amount': round(float(hsn_tax[tax]['amount']), 2), 'name': hsn_tax[tax]['tax_name'],
+                            'kfc': hsn_tax[tax]['kfc'],
+                            'cess': hsn_tax[tax]['cess'], })
+
+
+        return [result, discount, payment_lines, change, order_details, detail, subtotal, list_of_tax]
 
     # Passing order details to pos for showing list of order
     @api.model

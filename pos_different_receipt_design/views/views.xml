@@ -1,0 +1,78 @@
+<odoo>
+  <data>
+    <record id="pos_receipt_design_form_view" model="ir.ui.view">
+      <field name="name">POS Receipt Design Form View</field>
+      <field name="model">pos.receipt.design</field>
+      <field name="arch" type="xml">
+        <form string="Receipt Design">
+          <sheet>
+            <group>
+              <field name="name"/>
+              <field name="receipt_design" widget="ace" options="{'mode': 'xml'}" string="Receipt XML"/>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <record id="pos_receipt_design_list_view" model="ir.ui.view">
+      <field name="name">POS Receipt Design List View</field>
+      <field name="model">pos.receipt.design</field>
+      <field name="arch" type="xml">
+        <tree string="Receipt Design">
+          <field name="name"/>
+        </tree>
+      </field>
+    </record>
+
+    <record id="view_pos_receipt_design_search" model="ir.ui.view">
+        <field name="name">pos.receipt.design.search.view</field>
+        <field name="model">pos.receipt.design</field>
+        <field name="arch" type="xml">
+            <search string="Point of Sale Reciept Design">
+                <field name="name"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_pos_receipt_design" model="ir.actions.act_window">
+      <field name="name">Pos Receipt Design</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">pos.receipt.design</field>
+      <field name="view_mode">tree,form</field>
+      <field name="search_view_id" ref="view_pos_receipt_design_search" />
+    </record>
+
+    <menuitem
+        id="menu_pos_receipt_design"
+        name="Pos Receipt Design"
+        parent="point_of_sale.menu_point_config_product"
+        sequence="10"
+        action="action_pos_receipt_design"
+        groups="point_of_sale.group_pos_manager"/>
+
+    <record id="pos_config_view_form_inherit_pos_receipt_design" model="ir.ui.view">
+      <field name="name">pos.config.form.inherit.pos.receipt.design</field>
+      <field name="model">pos.config</field>
+      <field name="inherit_id" ref="point_of_sale.pos_config_view_form" />
+      <field name="arch" type="xml">
+        <xpath expr="//div[@id='iface_invoicing']" position="after">
+          <div class="col-12 col-lg-6 o_setting_box" id="custom_receipt">
+            <div class="o_setting_left_pane">
+              <field name="use_custom_receipt"/>
+            </div>
+            <div class="o_setting_right_pane">
+              <label for="use_custom_receipt"/>
+              <div class="text-muted">
+                Use Custom Receipt
+              </div>
+              <div class="content-group mt16" attrs="{'invisible': [('use_custom_receipt', '=', False)]}">
+                <field name="pos_receipt_design_id" attrs="{'required': [('use_custom_receipt', '=', True)]}"/>
+              </div>
+            </div>
+          </div>
+        </xpath>
+      </field>
+    </record>
+  </data>
+</odoo>

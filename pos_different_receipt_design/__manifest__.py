@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "POS Reprint Ticket",
+    'name': "POS Different Receipt",
 
     'summary': """
-        Allows cashier to take reprint of order in POS""",
+        User can design different receipt format for each point of sale""",
 
     'description': """
-        This module support to search previous orders and take reprint
+        User can design and assign receipt to POS
     """,
 
-    'author': "Loyal IT Solutions",
+    'author': "Loyal IT Solutions Pvt Ltd",
     'website': "http://www.loyalitsolutions.com",
 
     # Categories can be used to filter modules in modules listing
@@ -19,18 +19,14 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'point_of_sale', 'pos_different_receipt_design'],
+    'depends': ['base', 'point_of_sale'],
 
     # always loaded
     'data': [
-        # 'security/ir.model.access.csv',
+        'security/ir.model.access.csv',
         'data/pos_receipt_data.xml',
         'views/views.xml',
-        'views/config_view.xml',
         'views/templates.xml',
-    ],
-    'qweb': [
-        'static/src/xml/reprint.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

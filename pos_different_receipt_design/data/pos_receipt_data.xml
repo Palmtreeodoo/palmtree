@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--    <data noupdate="1">-->
+    <record id="pos_receipt_design_1" model="pos.receipt.design">
+        <field name="name">POS Receipt Design 1</field>
+        <field name="receipt_design" type="html">
+            <div class="pos-receipt">
+                <div class="logo-style" align="center" style="height:120px;">
+                    <t t-if='receipt.company.logo'>
+                        <img t-att-src='receipt.company.logo' style="height:140px;width:216px;"/>
+                        <br/>
+                    </t>
+                    <t t-if='!receipt.company.logo'>
+                        <h1>
+                            <t t-esc='receipt.company.name'/>
+                        </h1>
+                        <br/>
+                    </t>
+                </div>
+                <br/>
+                <br/>
+                <t t-if="order.pos_invoice_number and widget.pos.config.show_invoice_number">
+<!--                    <div>&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;</div>-->
+                    INV number:
+                    <t t-esc="order.pos_invoice_number"/>
+                    <br></br>
+                    <br/>
+                </t>
+                <t t-if="receipt.header">
+                    <div style='text-align:center;font-family:Calibri;font-size:12px;'>
+                        <t t-esc="receipt.header"/>
+                        <br/>
+                        <t t-if="receipt.footer">
+                            PH:
+                            <t t-esc="receipt.footer || ''"/>
+                        </t>
+                        <br/>
+                        EMAIL:
+                        <t t-esc='receipt.company.email'/>
+                        <br/>
+                        GSTIN:
+                        <t t-esc="receipt.company.company_registry"/>
+                        <br/>
+                        RETAIL INVOICE
+                        <br/>
+                        ORIGINAL
+                    </div>
+                </t>
+                <div style='text-align:left;font-family:Calibri;font-size:12px;'>
+                    <span>
+                        Place of Supply:Kerala &amp; 32
+                        <br/>
+                        Order No:
+                        <t t-esc="order.name"/>
+                        <br/>
+                        Dt:
+                        <t t-esc="receipt.date.localestring"/>
+                        <br/>
+                        Cashier:
+                        <t t-esc="widget.pos.cashier ? widget.pos.cashier.name : widget.pos.user.name"/>
+                        <br/>
+                        <t style='font-size:12px;text-align:left;' t-if="order.get_client()">
+                            <br/>
+                            Customer :
+                            <t style='text-align:left;' t-esc="order.get_client_name()"/>
+                            <t t-if="order.get_client().vat">
+                                <t t-if="order.get_client().street">
+                                    <br/>
+                                    <t t-esc="order.get_client().street"/>
+                                </t>
+                                <t t-if="order.get_client().street2">
+                                    <br/>
+                                    <t t-esc="order.get_client().street2"/>
+                                </t>
+                                <t t-if="order.get_client().city">
+                                    <br/>
+                                    <t t-esc="order.get_client().city"/>
+                                </t>
+                                <t t-if="order.get_client().state_id">
+                                    <br/>
+                                    <t t-if="order.get_client().state_id[1]" t-esc="order.get_client().state_id[1]"/>
+                                </t>
+                                <!--<t t-if="order.get_client().country_id" t-esc="order.get_client().country_id.name"/>-->
+                            </t>
+                            <t style='font-size:12px;text-align:left;' t-if="order.get_client().phone">
+                                <br/>
+                                Mobile No :
+                                <t style='text-align:left;' t-esc="order.get_client().phone"/>
+                            </t>
+                            <t t-if="order.get_client().vat">
+                                <br/>
+                                GSTIN:
+                                <t t-esc="order.get_client().vat"/>
+                                <br/>
+                            </t>
+                        </t>
+                    </span>
+                </div>
+                <br></br>
+                <hr style="display: block;
+                        margin-top: 0.5em;
+                        margin-bottom: 0.5em;
+                        margin-left: auto;
+                        margin-right: auto;
+                        border-style: dashed;
+                        border-width: 1px;"></hr>
+                <table class='receipt-orderlines' style="font-size:12px;font-family:Calibri;">
+                    <colgroup>
+                        <col width="18%"/>
+                        <col width='30%'/>
+                        <col width='22%'/>
+                        <col width='30%'/>
+                        <!--<col width='15%'/>-->
+                        <!--<col width='22%'/>-->
+                    </colgroup>
+                    <tr style="font-size:12px;font-family:Calibri ;">
+                        <td align="left">
+                            Sl.
+                        </td>
+                        <td align="left">
+                            Description
+                        </td>
+                        <td align="left">
+                            HSN/SAC
+                        </td>
+                        <td align="right">
+                            Tax %
+                        </td>
+                    </tr>
+                    <tr style="font-size:12px;font-family:Calibri ;">
+                        <td align="right" style="border-bottom: 1px  dashed gray;">
+                            Rate
+                        </td>
+                        <td align="right" style="border-bottom: 1px  dashed gray;">
+                            Qty
+                        </td>
+                        <td align="right" style="border-bottom: 1px  dashed gray;" colspan="2">
+                            Amount
+                        </td>
+                    </tr>
+                    <t t-set="sl" t-value="0"/>
+                    <t t-set="i" t-value="0"/>
+                    <t t-set="j" t-value="0"/>
+                    <t t-set="qty" t-value="0"/>
+                    <t t-set="discount" t-value="0"/>
+                    <t t-foreach="orderlines" t-as="orderline">
+                        <t t-if="orderline.get_product().display_name == 'Discount'">
+                            <!--<t t-esc="orderline.get_price_with_tax_round()"/>-->
+                            <t t-set="discount" t-value="discount+orderline.get_unit_price()"/>
+                        </t>
+                        <t t-if="orderline.get_product().display_name!='Discount'">
+                            <tr style="font-size:12px">
+                                <td class="pos-left-align" style="font-size:12px;font-family:Calibri !important;">
+                                    <br/>
+                                    <t t-set="sl" t-value="sl+1"/>
+                                    <t t-esc="sl"/>
+                                </td>
+                                <td class="pos-left-align" style="font-size:12px;font-family:Calibri !important;">
+                                    <br/>
+                                    <t t-esc="orderline.get_product().display_name"/>
+                                    <!--<t t-if="orderline.get_discount() > 0">-->
+                                    <!--<div class="pos-disc-font">-->
+                                    <!--With a<t t-esc="orderline.get_discount()"/>% discount-->
+                                    <!--</div>-->
+                                    <!--</t>-->
+                                </td>
+                                <td class="pos-left-align" style="font-size:12px;font-family:Calibri !important;">
+                                    <br/>
+                                    <t t-if="orderline.get_product().l10n_in_hsn_code">
+                                        <t t-esc="orderline.get_product().l10n_in_hsn_code"/>
+                                    </t>
+                                </td>
+                                <td class="pos-right-align" style="font-size:12px;font-family:Calibri !important;">
+                                    <br/>
+                                    <!--<t t-esc ="orderline.get_orderline_tax()"/>-->
+                                    <t t-foreach="orderline.get_orderline_tax()" t-as="tax">
+                                        <t t-esc="tax.name"/>
+                                    </t>
+                                </td>
+                            </tr>
+                            <tr style="font-size:12px">
+                                <td class="pos-right-align" style="font-size:12px;font-family:Calibri !important;">
+                                    <t t-esc="widget.format_currency_no_symbol(orderline.get_unit_price())"/>
+                                </td>
+                                <td class="pos-right-align" style="font-size:12px;font-family:Calibri !important;">
+                                    <t t-esc="orderline.get_quantity_str()"/>
+                                    <t t-set="qty" t-value="qty+orderline.get_quantity()"/>
+                                </td>
+                                <td class="pos-right-align" colspan="2"
+                                    style="font-size:12px;font-family:Calibri !important;">
+                                    <t t-esc="widget.format_currency_no_symbol(orderline.get_display_price())"/>
+                                    <t t-set="j" t-value="j + (orderline.get_display_price())"/>
+                                </td>
+                            </tr>
+                        </t>
+                    </t>
+                </table>
+                <hr style="display: block;
+                        margin-top: 0.5em;
+                        margin-bottom: 0.5em;
+                        margin-left: auto;
+                        margin-right: auto;
+                        border-style: dashed;
+                        border-width: 1px;"></hr>
+                <table width="100%" class='receipt-total' style="font-family:Calibri !important;font-size: 12px;">
+                    <tr style="font-family:Calibri !important;font-size: 12px;">
+                        <td class="pos-center-align" width="20%">
+                        </td>
+                        <td class="pos-right-align" width="50%">
+                            Amount:
+                        </td>
+                        <td class="pos-right-align" width="30%">
+                            <t t-esc="widget.format_currency_no_symbol(order.get_total_with_tax()-discount)"/>
+                        </td>
+                    </tr>
+                    <tr style="font-family:Calibri !important;font-size: 12px;">
+                        <td class="pos-center-align" width="20%">
+                        </td>
+                        <td class="pos-right-align" width="50%">
+                            Discount:
+                        </td>
+                        <td class="pos-right-align" width="30%">
+                            <t t-set="dis" t-value="widget.format_currency_no_symbol(order.get_total_discount())"/>
+                            <t t-esc="1*(dis-discount)"/>
+                        </td>
+                    </tr>
+                    <tr style="font-family:Calibri !important;font-size: 12px;">
+                        <td class="pos-center-align" width="20%">
+                        </td>
+                        <td class="pos-right-align" width="50%">
+                            <t t-if="paymentlines[0].get_amount()">
+                                <t t-if="1 &lt; paymentlines[0].get_amount()">
+                                    ROA:
+                                </t>
+                                <t t-if="1  &gt; paymentlines[0].get_amount()">
+                                    ROD:
+                                </t>
+                            </t>
+                            <t t-if="!paymentlines[0].get_amount()">
+                                ROD:
+                            </t>
+                        </td>
+                        <td class="pos-right-align" width="30%">
+                            <t t-esc="widget.format_currency_no_symbol(order.get_rounding_applied())"/>
+                            <!--                                <t t-if="paymentlines[0].get_amount()">-->
+                            <!--                                    <t t-if="1 &lt; paymentlines[0].get_amount()">-->
+                            <!--                                        <t t-esc="paymentlines[0].get_amount()"/>-->
+                            <!--                                    </t>-->
+                            <!--                                    <t t-if="1  &gt; paymentlines[0].get_amount()">-->
+                            <!--                                        <t t-esc="(-1*paymentlines[0].get_amount())"/>-->
+                            <!--                                    </t>-->
+                            <!--                                </t>-->
+                            <!--                                <t t-if="!paymentlines[0].get_amount()">-->
+                            <!--                                    0.00-->
+                            <!--                                </t>-->
+                        </td>
+                    </tr>
+                    <tr style="font-family:Calibri !important;font-size: 12px;">
+                        <td class="pos-center-align" width="20%">
+                        </td>
+                        <td class="pos-right-align" style="font-family:Calibri !important;font-size: 14px;" width="50%">
+                            <b>Total Amount:</b>
+                        </td>
+                        <td class="pos-right-align" width="30%">
+                            <b>
+                                <t t-esc="widget.format_currency_no_symbol(order.get_total_with_tax() + order.get_rounding_applied())"/>
+                            </b>
+                            <!--                                <t t-if="paymentlines[0].get_amount()">-->
+                            <!--                                    <t t-if="1 &lt; paymentlines[0].get_amount()">-->
+                            <!--                                        <b><t t-esc="widget.format_currency_no_symbol(order.get_total_with_tax())"/></b>-->
+                            <!--                                    </t>-->
+                            <!--                                    <t t-if="1  &gt; paymentlines[0].get_amount()">-->
+                            <!--                                        <b>-->
+                            <!--                                            <t t-esc="widget.format_currency_no_symbol(order.get_total_with_tax() - paymentlines[0].get_amount())"/>-->
+                            <!--                                        </b>-->
+                            <!--                                    </t>-->
+                            <!--                                </t>-->
+                            <!--                                <t t-if="!paymentlines[0].get_amount()">-->
+                            <!--                                    <b><t t-esc="widget.format_currency_no_symbol(order.get_total_with_tax())"/></b>-->
+                            <!--                                </t>-->
+                        </td>
+                    </tr>
+                </table>
+                <br/>
+                <span style="font-size:12px;text-align:left;font-family:Calibri !important;">Total Prod/Qty :<t
+                        t-esc="sl"/>/
+                    <t t-esc="qty"/>
+                </span>
+                <br/>
+                <span style="font-size:12px;text-align:left;font-family:Calibri !important;">Tax Breakup
+                </span>
+                <br/>
+                <t t-set="cgstt" t-value="0"/>
+                <t t-set="gstt" t-value="0"/>
+                <t t-set="kfcc" t-value="0"/>
+                <t t-set="cesss" t-value="0"/>
+                <t t-foreach="order.get_tax_details_for_receipt()" t-as="taxdetail">
+                    <t t-if="taxdetail.kfc">
+                        <t t-set="kfcc" t-value="kfcc+taxdetail.amount"/>
+                    </t>
+                    <t t-if="taxdetail.cess">
+                        <t t-set="cesss" t-value="cesss+taxdetail.amount"/>
+                    </t>
+                    <t t-if="!taxdetail.kfc and !taxdetail.cess">
+                        <t t-set="cgstt" t-value="cgstt+(taxdetail.amount)/2"/>
+                        <t t-set="gstt" t-value="gstt+taxdetail.amount"/>
+                    </t>
+                </t>
+                <table class='receipt-total' style="font-family:Calibri !important;font-size: 12px;">
+                    <t t-if="order.fiscal_position">
+                        <tr style="font-family:Calibri !important;font-size: 12px;">
+                            <td class="pos-left-align">
+                                IGST
+                            </td>
+                            <td>
+                                :
+                            </td>
+                            <td class="pos-left-align">
+                                <t t-esc="widget.format_currency_no_symbol(gstt)"/>
+                            </td>
+                            <td class="pos-left-align"></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </t>
+                    <t t-if="!order.fiscal_position">
+                        <tr style="font-family:Calibri !important;font-size: 12px;">
+                            <td class="pos-left-align">
+                                CGST
+                            </td>
+                            <td>
+                                :
+                            </td>
+                            <td class="pos-left-align">
+                                <t t-esc="widget.format_currency_no_symbol(cgstt)"/>
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr style="font-family:Calibri !important;font-size: 12px;">
+                            <td class="pos-left-align">
+                                SGST
+                            </td>
+                            <td>
+                                :
+                            </td>
+                            <td class="pos-left-align">
+                                <t t-esc="widget.format_currency_no_symbol(cgstt)"/>
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </t>
+                    <t t-if="cesss!=0">
+                        <tr style="font-family:Calibri !important;font-size: 12px;">
+                            <td class="pos-left-align">
+                                CESS
+                            </td>
+                            <td>
+                                :
+                            </td>
+                            <td class="pos-left-align">
+                                <t t-esc="widget.format_currency_no_symbol(cesss)"/>
+                            </td>
+                            <td class="pos-left-align"></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </t>
+                    <t t-if="kfcc!=0">
+                        <tr style="font-family:Calibri !important;font-size: 12px;">
+                            <td class="pos-left-align">
+                                KFC
+                            </td>
+                            <td>
+                                :
+                            </td>
+                            <td class="pos-left-align">
+                                <t t-esc="widget.format_currency_no_symbol(kfcc)"/>
+                            </td>
+                            <td class="pos-left-align"></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </t>
+                </table>
+                <span style="font-size:12px;text-align:left;font-family:Calibri !important;">Payment Details :
+                    <br/>
+                    <t t-foreach="paymentlines" t-as="line">
+                        <!--                            <t t-if="!line.used_for_rounding ">-->
+                        <t t-esc="line.name"/>
+                        =
+                        <t t-esc="widget.format_currency_no_symbol(line.get_amount())"/>
+                        <br/>
+                        <!--                            </t>-->
+                    </t>
+                </span>
+                <span style="font-size:12px;text-align:left;font-family:Calibri !important;">
+                    Change =
+                    <t t-esc='widget.format_currency_no_symbol(receipt.change)'/>
+                </span>
+                <br/>
+                <hr></hr>
+                <div align="right" style="font-size:12px;font-family:Calibri !important;">
+                    Authorised Signature
+                    <br/>
+                </div>
+                <br/>
+                <span style="font-size:12px;text-align:left;font-family:Calibri !important;">
+                    (price inclusive of all taxes)
+                </span>
+                <br/>
+                <span style="font-size:12px;text-align:left;font-family:Calibri !important;">
+                    Please Verify items before leaving
+                    <t t-esc='receipt.company.name'/>
+                    <br/>
+                    E &amp; O.E
+                </span>
+                <div align="center" style='font-size:12px;font-family:Calibri !important;'>
+                    ***********Thank You Visit Again***********
+                    <br/>
+                    No cash Refund
+                </div>
+            </div>
+        </field>
+    </record>
+    <!--    </data>-->
+</odoo>
