@@ -38,7 +38,7 @@
                                             <br/>
                                             <sapn t-field="doc.location_id.operating_unit_id.partner_id.street"/>
                                             <br/>
-                                            <sapn t-field="doc.location_id.operating_unit_id.partner_id.street2"/>-PIN-
+                                            <sapn t-field="doc.location_id.operating_unit_id.partner_id.street2"/>,PIN-
                                             <sapn t-field="doc.location_id.operating_unit_id.partner_id.zip"/>
                                             <br/>
                                             <sapn t-field="doc.location_id.operating_unit_id.partner_id.city"/>
@@ -100,7 +100,7 @@
                                                 <br/>
                                                 <sapn t-field="doc.partner_id.street"/>
                                                 <br/>
-                                                <sapn t-field="doc.partner_id.street2"/>-PIN-
+                                                <sapn t-field="doc.partner_id.street2"/>,PIN-
                                                 <sapn t-field="doc.partner_id.zip"/>
                                                 <br/>
                                                 <sapn t-field="doc.partner_id.city"/>
@@ -290,7 +290,7 @@
                                                 <b>For PALM TREE</b>
                                                 <br/>
                                                 <br/>
-                                                authorised Signatory
+                                                Authorised Signatory
                                             </td>
                                         </tr>
                                     </tbody>
