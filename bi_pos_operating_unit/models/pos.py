@@ -23,13 +23,14 @@ class PosOrder(models.Model):
                                         ' the Sales Order and in the Operating'
                                         ' Unit must be the same.'))
 
-    '''@api.multi
-    def _prepare_invoice(self):
-        self.ensure_one()
-        invoice_vals = super(SaleOrder, self)._prepare_invoice()
-        invoice_vals['operating_unit_id'] = self.operating_unit_id.id
-        return invoice_vals'''
-        
+    def _prepare_invoice_vals(self):
+        """
+        Prepare the dict of values to create the new invoice for a pos order.
+        """
+        res = super(PosOrder, self)._prepare_invoice_vals()
+        res.update({'operating_unit_id': self.operating_unit_id.id})
+        return res
+
         
 class PosOrderLine(models.Model):
     _inherit = 'pos.order.line'
@@ -57,7 +58,7 @@ class pos_session(models.Model):
     _inherit = 'pos.session'
 
     @api.model
-    def create(self,vals):
+    def create(self, vals):
         res = super(pos_session, self).create(vals)
         res.operating_unit_id = res.config_id.operating_unit_id.id
         return res
