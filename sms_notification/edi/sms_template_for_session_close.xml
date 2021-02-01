@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<openerp>
+    <data noupdate="1">
+        <record id="sms_template_for_for_session_close" model="sms.notification.template">
+            <field name="name">SMS Notification to Selected Users When Session gets Closed</field>
+            <field name="condition">session_closed</field>
+            <field name="auto_delete" eval="True"/>
+            <field name="sms_body_html"><![CDATA[
+                % set total =[]
+
+
+                Hello, ${object.config_id.name} session - ${object.name} has been closed.REFERENCES
+                % for a in object.statement_ids:
+                    % if total.append(a.total_entry_encoding)
+                    % endif
+                % endfor
+
+                Total Sale amount:${object.total_payments_amount} Responsible :${object.user_id.name}
+                            ]]>
+            </field>
+        </record>
+    </data>
+</openerp>
