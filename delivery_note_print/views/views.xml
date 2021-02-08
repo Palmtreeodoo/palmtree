@@ -230,7 +230,7 @@
                                                     <span t-field="l.product_id.l10n_in_hsn_code"/>
                                                 </td>
                                                 <td style="border: 1px solid black;padding:5px;">
-                                                    <t t-foreach="l.product_id.taxes_id" t-as="c">
+                                                    <t t-foreach="l.taxes_id" t-as="c">
                                                         <span t-field="c.name"/>
                                                     </t>
                                                 </td>
@@ -238,7 +238,7 @@
                                                     <span t-field="l.qty_done"/>
                                                 </td>
                                                 <td style="border: 1px solid black;text-align:right;padding:5px;">
-                                                    <span t-field="l.product_id.lst_price"/>
+                                                    <span t-field="l.price_unit"/>
                                                 </td>
                                                 <td style="border: 1px solid black;text-align:center;padding:5px;">
                                                     <span t-field="l.product_uom_id"/>
@@ -247,8 +247,8 @@
                                                     <!--<span t-field="l.product_uom_id"/>-->
                                                 </td>
                                                 <td style="border: 1px solid black;text-align:right;padding:5px;">
-                                                    <span t-esc="l.qty_done * l.product_id.lst_price"/>
-                                                    <t t-set="f" t-value="f +(l.qty_done * l.product_id.lst_price)"/>
+                                                    <span t-esc="'{0:,.2f}'.format(float(l.price_total))"/>
+                                                    <t t-set="f" t-value="f +(l.qty_done * l.price_unit)"/>
                                                     <!--f=l.qty_done * l.product_id.lst_price-->
                                                 </td>
                                             </tr>
@@ -262,13 +262,13 @@
                                                 </b>
                                             </td>
                                             <td style="text-align:right;border: 1px solid black;padding:5px;">
-                                                <span t-esc="f"/>
+                                                <span t-esc="'{0:,.2f}'.format(float(doc.amount_total))"/>
                                             </td>
                                         </tr>
 
                                         <tr>
                                             <td colspan="8" style="text-align:left;border: 1px solid black;padding:5px;">
-                                                <span t-esc="doc.currency_id.amount_to_text(f)"/>
+                                                <span t-esc="doc.currency_id.amount_to_text(doc.amount_total)"/>
                                                 <![CDATA[&nbsp;]]>Only
                                             </td>
                                             <td style="text-align:right;border: 1px solid black;padding:5px;">
