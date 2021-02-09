@@ -3,11 +3,10 @@
     'name': "GST Ewaybill Inventory",
 
     'summary': """
-        Short (1 phrase/line) summary of the module's purpose, used as
-        subtitle on modules listing or apps.openerp.com""",
+        Module helps to create GST Eway Bill for Internal Transfer""",
 
     'description': """
-        Long description of module's purpose
+        Module helps to create GST Eway Bill for Internal Transfer
     """,
 
     'author': "Loyal IT Solutions Pvt Ltd",
@@ -20,13 +19,14 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'stock', 'gst_ewaybill'],
+    'depends': ['base', 'stock', 'gst_ewaybill', 'web_studio'],
 
     # always loaded
     'data': [
         # 'security/ir.model.access.csv',
         'data/ewaybill_server_actions.xml',
         'views/consolidated_ewaybill_view.xml',
+        'views/studio_inventory_view.xml',
         'views/views.xml',
         'views/templates.xml',
     ],
