@@ -24,7 +24,7 @@ class MSG91Client(object):
 
     def __init__(self, api_key, **kwargs):
         self.auth_key = api_key
-        self.sender_id = kwargs.get('sender_id') or 'MSGIND'
+        self.sender_id = kwargs.get('sender_id') or 'PAMTRE'
         self.route = kwargs.get('route') or 4
         self.sms_url = "http://control.msg91.com/api/v2/sendsms"
 
