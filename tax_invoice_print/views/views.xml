@@ -35,11 +35,11 @@
                                 <col style="width: 9%;"/>
                                 <col style="width: 9%;"/>
 
-                                <col style="width: 6%;"/>
-                                <col style="width: 5%;"/>
                                 <col style="width: 8%;"/>
+                                <col style="width: 5%;"/>
+                                <col style="width: 7%;"/>
                                 <col style="width: 10%;"/>
-                                <col style="width: 10%;"/>
+                                <col style="width: 9%;"/>
                                 <col style="width: 11%;"/>
                                 <tr>
                                     <td colspan="12"
@@ -67,7 +67,7 @@
                                         Invoice No. :<span t-field="o.name"/>
                                     </td>
                                     <td colspan="6" style="border-style: solid;border-width: 1px 1px 0px 1px;border-color:#b2beb5;">
-                                        E-way Bill No. :
+                                        E-way Bill No. :<t t-esc="o.ewaybill_no"/>
                                     </td>
                                 </tr>
                                 <tr>
@@ -79,22 +79,23 @@
                                               t-field-options="{&quot;format&quot;: &quot;dd-MM-yyyy&quot;}"/>
                                     </td>
                                     <td colspan="6" style="border-style: solid;border-width: 0px 1px 0px 1px;border-color:#b2beb5;">
-                                        Date of Supply :
+                                        Date of Supply :<span t-field="o.invoice_date"
+                                              t-field-options="{&quot;format&quot;: &quot;dd-MM-yyyy&quot;}"/>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td colspan="6" style="border-style: solid;border-width: 0px 1px 0px 1px;border-color:#b2beb5;">
                                     </td>
                                     <td colspan="6" style="border-style: solid;border-width: 0px 1px 0px 1px;border-color:#b2beb5;">
-                                        Transportation Mode :
+                                        Transportation Mode :<span t-field="o.transportation_mode"/>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td colspan="6" style="border-style: solid;border-width: 0px 1px 1px 1px;border-color:#b2beb5;">
-                                        Tax Is Payable On Reverse Charge:
+                                        Taxwidth Is Payable On Reverse Charge:
                                     </td>
                                     <td colspan="6" style="border-style: solid;border-width: 0px 1px 1px 1px;border-color:#b2beb5;">
-                                        Vehicle No :
+                                        Vehicle No :<t t-esc="o.vehicle_no"/>
                                     </td>
                                 </tr>
 <!--                                <tr>-->
@@ -151,7 +152,7 @@
                                         style="border-style: solid;border-width: 0px 1px 0px 0px;border-color:#b2beb5;padding:0px;padding-left: 10px;">
                                         <div class="row">
                                             <div class="col-1">:</div>
-                                            <div class="col-11" style="font-weight:bold;"><t t-esc="o.partner_shipping_id.name"/></div>
+                                           width <div class="col-11" style="font-weight:bold;"><t t-esc="o.partner_shipping_id.name"/></div>
                                         </div>
                                     </td>
                                 </tr>
@@ -345,11 +346,11 @@
                                 <col style="width: 9%;"/>
                                 <col style="width: 9%;"/>
 
-                                <col style="width: 6%;"/>
-                                <col style="width: 5%;"/>
                                 <col style="width: 8%;"/>
+                                <col style="width: 5%;"/>
+                                <col style="width: 7%;"/>
                                 <col style="width: 10%;"/>
-                                <col style="width: 10%;"/>
+                                <col style="width: 9%;"/>
                                 <col style="width: 11%;"/>
                                 <thead >
                                 <tr style="border:1px solid #b2beb5;border-collapse:collapse;">
@@ -1087,11 +1088,11 @@
                                 <col style="width: 9%;"/>
                                 <col style="width: 9%;"/>
 
-                                <col style="width: 6%;"/>
-                                <col style="width: 5%;"/>
                                 <col style="width: 8%;"/>
+                                <col style="width: 5%;"/>
+                                <col style="width: 7%;"/>
                                 <col style="width: 10%;"/>
-                                <col style="width: 10%;"/>
+                                <col style="width: 9%;"/>
                                 <col style="width: 11%;"/>
                                 <t t-set="row_count" t-value="0"/>
                                 <tr>
@@ -1106,13 +1107,28 @@
                                     <tr>
                                         <t t-if="len(o.line_ids.filtered(lambda line: line.tax_line_id)) in [0, 1] and o.amount_untaxed == amount_by_group[2]">
                                             <t t-if="row_count==1">
-                                                <td colspan="9" style="border-style: solid;border-width: 0px 0px 0px 1px;border-color:#b2beb5;">Bank Name:</td>
+                                                <td colspan="9" style="border-style: solid;border-width: 0px 0px 0px 1px;border-color:#b2beb5;">Bank Name:
+                                                <t t-esc="o.invoice_partner_bank_id.bank_id.name"/>
+                                                </td>
                                             </t>
                                             <t t-if="row_count==2">
-                                                <td colspan="9" style="border-style: solid;border-width: 0px 0px 0px 1px;border-color:#b2beb5;">A/c No.:</td>
+                                                <td colspan="9" style="border-style: solid;border-width: 0px 0px 0px 1px;border-color:#b2beb5;">A/c No.:
+                                                <t t-esc="o.invoice_partner_bank_id.acc_number"/>
+                                                </td>
                                             </t>
                                             <t t-if="row_count==3">
-                                                <td colspan="9" style="border-style: solid;border-width: 0px 0px 0px 1px;border-color:#b2beb5;">Branch &amp; IFS Code:</td>
+                                                <td colspan="9" style="border-style: solid;border-width: 0px 0px 0px 1px;border-color:#b2beb5;">Branch &amp; IFS Code:
+                                                <t t-if="o.invoice_partner_bank_id.bank_id.street">
+                                             <t t-esc="o.invoice_partner_bank_id.bank_id.street"/>
+                                         </t>
+                                         <t t-if="o.invoice_partner_bank_id.bank_id.bic">
+                                               <t t-if="o.invoice_partner_bank_id.bank_id.street">
+                                                   &amp;
+                                               </t>
+
+                                             <t t-esc="o.invoice_partner_bank_id.bank_id.bic"/>
+                                         </t>
+                                                </td>
                                             </t>
                                             <t t-if="row_count>=4">
                                                 <td colspan="9" style="border-style: solid;border-width: 0px 0px 0px 1px;border-color:#b2beb5;"></td>
@@ -1126,13 +1142,28 @@
                                         </t>
                                         <t t-else="">
                                             <t t-if="row_count==1">
-                                                <td colspan="9" style="border-style: solid;border-width: 0px 0px 0px 1px;border-color:#b2beb5;">Bank Name:</td>
+                                                <td colspan="9" style="border-style: solid;border-width: 0px 0px 0px 1px;border-color:#b2beb5;">Bank Name:
+                                                <t t-esc="o.invoice_partner_bank_id.bank_id.name"/>
+                                                </td>
                                             </t>
                                             <t t-if="row_count==2">
-                                                <td colspan="9" style="border-style: solid;border-width: 0px 0px 0px 1px;border-color:#b2beb5;">A/c No.:</td>
+                                                <td colspan="9" style="border-style: solid;border-width: 0px 0px 0px 1px;border-color:#b2beb5;">A/c No.:
+                                                <t t-esc="o.invoice_partner_bank_id.acc_number"/>
+                                                </td>
                                             </t>
                                             <t t-if="row_count==3">
-                                                <td colspan="9" style="border-style: solid;border-width: 0px 0px 0px 1px;border-color:#b2beb5;">Branch &amp; IFS Code:</td>
+                                                <td colspan="9" style="border-style: solid;border-width: 0px 0px 0px 1px;border-color:#b2beb5;">Branch &amp; IFS Code:
+                                                <t t-if="o.invoice_partner_bank_id.bank_id.street">
+                                             <t t-esc="o.invoice_partner_bank_id.bank_id.street"/>
+                                         </t>
+                                         <t t-if="o.invoice_partner_bank_id.bank_id.bic">
+                                               <t t-if="o.invoice_partner_bank_id.bank_id.street">
+                                                   &amp;
+                                               </t>
+
+                                             <t t-esc="o.invoice_partner_bank_id.bank_id.bic"/>
+                                         </t>
+                                                </td>
                                             </t>
                                             <t t-if="row_count>=4">
                                                 <td colspan="9" style="border-style: solid;border-width: 0px 0px 0px 1px;border-color:#b2beb5;"></td>
@@ -1148,13 +1179,28 @@
                                 </t>
                                 <tr>
                                     <t t-if="row_count==0">
-                                        <td colspan="9" style="border-style: solid;border-width: 0px 0px 0px 1px;border-color:#b2beb5;">Bank Name:</td>
+                                        <td colspan="9" style="border-style: solid;border-width: 0px 0px 0px 1px;border-color:#b2beb5;">Bank Name:
+                                        <t t-esc="o.invoice_partner_bank_id.bank_id.name"/>
+                                        </td>
                                     </t>
                                     <t t-if="row_count==1">
-                                        <td colspan="9" style="border-style: solid;border-width: 0px 0px 0px 1px;border-color:#b2beb5;">A/c No.:</td>
+                                        <td colspan="9" style="border-style: solid;border-width: 0px 0px 0px 1px;border-color:#b2beb5;">A/c No.:
+                                        <t t-esc="o.invoice_partner_bank_id.acc_number"/>
+                                        </td>
                                     </t>
                                     <t t-if="row_count==2">
-                                        <td colspan="9" style="border-style: solid;border-width: 0px 0px 0px 1px;border-color:#b2beb5;">Branch &amp; IFS Code:</td>
+                                        <td colspan="9" style="border-style: solid;border-width: 0px 0px 0px 1px;border-color:#b2beb5;">Branch &amp; IFS Code:
+                                        <t t-if="o.invoice_partner_bank_id.bank_id.street">
+                                             <t t-esc="o.invoice_partner_bank_id.bank_id.street"/>
+                                         </t>
+                                         <t t-if="o.invoice_partner_bank_id.bank_id.bic">
+                                               <t t-if="o.invoice_partner_bank_id.bank_id.street">
+                                                   &amp;
+                                               </t>
+
+                                             <t t-esc="o.invoice_partner_bank_id.bank_id.bic"/>
+                                         </t>
+                                        </td>
                                     </t>
                                     <t t-if="row_count>=3">
                                         <td colspan="9" style="border-style: solid;border-width: 0px 0px 0px 1px;border-color:#b2beb5;"></td>
@@ -1166,10 +1212,23 @@
                                 </tr>
                                 <tr>
                                     <t t-if="row_count==0">
-                                        <td colspan="9" style="border-style: solid;border-width: 0px 0px 0px 1px;border-color:#b2beb5;">A/c No.:</td>
+                                        <td colspan="9" style="border-style: solid;border-width: 0px 0px 0px 1px;border-color:#b2beb5;">A/c No.:
+                                        <t t-esc="o.invoice_partner_bank_id.acc_number"/>
+                                        </td>
                                     </t>
                                     <t t-if="row_count==1">
-                                        <td colspan="9" style="border-style: solid;border-width: 0px 0px 0px 1px;border-color:#b2beb5;">Branch &amp; IFS Code:</td>
+                                        <td colspan="9" style="border-style: solid;border-width: 0px 0px 0px 1px;border-color:#b2beb5;">Branch &amp; IFS Code:
+                                        <t t-if="o.invoice_partner_bank_id.bank_id.street">
+                                             <t t-esc="o.invoice_partner_bank_id.bank_id.street"/>
+                                         </t>
+                                         <t t-if="o.invoice_partner_bank_id.bank_id.bic">
+                                               <t t-if="o.invoice_partner_bank_id.bank_id.street">
+                                                   &amp;
+                                               </t>
+
+                                             <t t-esc="o.invoice_partner_bank_id.bank_id.bic"/>
+                                         </t>
+                                        </td>
                                     </t>
                                     <t t-if="row_count>=2">
                                         <td colspan="9" style="border-style: solid;border-width: 0px 0px 0px 1px;border-color:#b2beb5;"></td>

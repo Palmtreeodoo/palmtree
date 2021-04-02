@@ -1,0 +1,23 @@
+ <odoo>
+     <data>
+         <record id="ewaybill_account_move_view_form" model="ir.ui.view">
+            <field name="name">ewaybill account move</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+               <xpath expr="//notebook" position="inside">
+					<page string="E-Way Bill Details">
+
+                        <separator string="E-Way Bill"/>
+                        <group>
+                            <field name="ewaybill_no"/>
+                            <field name="transportation_mode"/>
+                            <field name="vehicle_no"/>
+                        </group>
+                    </page>
+				</xpath>
+            </field>
+        </record>
+     </data>
+ </odoo>
+
