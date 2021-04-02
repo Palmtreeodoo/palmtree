@@ -51,7 +51,7 @@
                             TRN NO: <t t-esc="widget.pos.company.company_registry"/><br />
                         </t>
                         Served by: <t t-esc="widget.pos.cashier ? widget.pos.cashier.name : widget.pos.user.name"/><br />
-                        
+
                     </div>
                 </div>
                 <br />
@@ -169,7 +169,7 @@
                     <t t-foreach="order.get_tax_details()" t-as="taxdetail">
                         <t t-if="taxdetail.amount != 0">
                             <tr style="font-family: 'Times New Roman', Times, serif;font-size:14px;border-bottom: 1px dashed rgb(0, 0, 0);">
-                                <td style='text-align:right'><t t-esc="widget.format_currency_no_symbol(order.get_total_without_tax())"/></td>
+                                <td style='text-align:center'><t t-esc="widget.format_currency_no_symbol(order.get_total_without_tax())"/></td>
 <!--                                <td><t t-esc="taxdetail.name" /></td>-->
                                 <td style='text-align:right'>
                                     <t t-esc="widget.format_currency_no_symbol(taxdetail.amount)"/>
