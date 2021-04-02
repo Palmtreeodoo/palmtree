@@ -1,0 +1,144 @@
+<odoo>
+    <data>
+        <report
+                id="duplicate_tax_account_invoice_print"
+                model="account.move"
+                string="Duplicate Tax Invoice"
+                report_type="qweb-pdf"
+                name="duplicate_tax_invoice_print.report_duplicate_tax_invoice_print"
+                file="duplicate_tax_invoice_print.report_duplicate_tax_invoice_print"
+        />
+        <record id="duplicate_paperformat_tax_invoice" model="report.paperformat">
+            <field name="name">Tax Invoice</field>
+            <field name="default" eval="True"/>
+            <field name="format">custom</field>
+            <field name="page_height">297</field>
+            <field name="page_width">210</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">45</field>
+            <field name="margin_bottom">35</field>
+            <field name="margin_left">2</field>
+            <field name="margin_right">2</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">38</field>
+            <field name="dpi">90</field>
+        </record>
+
+
+        <record id="duplicate_tax_invoice_print.duplicate_tax_account_invoice_print" model="ir.actions.report">
+            <field name="paperformat_id" ref="duplicate_tax_invoice_print.duplicate_paperformat_tax_invoice"/>
+        </record>
+
+        <template id="duplicate_tax_invoice_print_custom_layout_header">
+            <t t-if="o and 'company_id' in o">
+                <t t-set="company" t-value="o.company_id"></t>
+            </t>
+            <t t-if="not o or not 'company_id' in o">
+                <t t-set="company" t-value="res_company"></t>
+            </t>
+            <div class="header" style="width:100%;">
+                <div class="row">
+                    <div class="col-6">
+                        <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" alt="Logo" style="max-height: 150px;"/><br></br>
+                    </div>
+                    <div class="col-6">
+                        <t t-if="company.company_in_print">
+                            <b style="font-size:18px">
+                                <t t-esc="company.company_in_print"/>
+                            </b>
+                            <br/>
+                        </t>
+                        <t t-if="company.street">
+                            <t t-esc="company.street"/>
+                            <br/>
+                        </t>
+                        <t t-if="company.street2">
+                            <t t-esc="company.street2"/>
+                            <br/>
+                        </t>
+                        <t t-if="company.city">
+                            <t t-esc="company.city"/>
+                        </t>
+                        <t t-if="company.state_id.name">,
+                            <t t-esc="company.state_id.name"/>
+                        </t>
+                        <t t-if="company.country_id">
+                            ,
+                            <t t-esc="company.country_id.name"/>
+                        </t>
+                        <t t-if="company.zip">
+                            - <t t-esc="company.zip"/>
+                        </t>
+                        <br/>
+                        <t t-if="company.phone">
+                            Ph: <t t-esc="company.phone"/>
+                            <br/>
+                        </t>
+                        <t t-if="company.company_registry">
+                            <b>
+                                GSTIN <t t-esc="company.company_registry"/>
+                            </b>
+                        </t>
+<!--                        <span class="company_address" t-field="company.partner_id"-->
+<!--                              t-options='{"widget": "contact", "fields": ["address"], "no_marker": true}'/>-->
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="article o_report_layout_boxed" t-att-data-oe-model="o and o._name"
+                 t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+                <t t-call="web.address_layout"/>
+                <t t-raw="0"/>
+            </div>
+<!--            <div class="footer">-->
+            <div class="footer o_boxed_footer"
+                 style="border-width:1px;border-color:black;margin-bottom:15px;width:101%">
+                <style>
+                    @font-face {
+                    font-family: 'AL Mohanad Bold';
+                    src: url('/duplicate_tax_invoice_print/static/src/fonts/Al-Mohanad Bold.ttf') format('truetype');
+                    }
+
+
+                    @font-face {
+                    font-family: 'calibri';
+                    src: url('/duplicate_tax_invoice_print/static/src/fonts/calibri/Calibri.ttf') format('truetype');
+                    }
+                </style>
+                <br/>
+                <table width="100%"  style="font-size:12px;">
+                    <tr>
+                        <td style="border-style: solid;border-width: 1px 1px 0px 1px;border-color:black;">
+                            Declaration
+                            <br/>
+                            We declare that this invoice shows the actual price of the goods described.
+                            <br/>
+                            The contents of the invoice are true and correct.
+                        </td>
+                        <td style="border-style: solid;border-width: 1px 1px 0px 0px;border-color:black;"><b>For PALM TREE</b></td>
+                    </tr>
+                    <tr>
+                        <td style="border-style: solid;border-width: 0px 1px 0px 1px;border-color:black;"> </td>
+                        <td style="border-style: solid;border-width: 0px 1px 0px 0px;border-color:black;">Authorised Signatory</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" align="center" style="border:1px solid black;">7356 111 934,35 / accounts@palmtreeshopping.com / <span t-field="company.website"/> </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" align="center">SUBJECT TO ERNAKULAM JURISDICTION</td>
+                    </tr>
+                </table>
+
+            </div>
+        </template>
+
+        <template id="duplicate_tax_invoice_print_external_layout">
+            <div class="article">
+                <t t-call="duplicate_tax_invoice_print.duplicate_tax_invoice_print_custom_layout_header"/>
+                <t t-raw="0"/>
+<!--                <t t-call="tax_invoice_print.tax_invoice_print_custom_layout_footer"/>-->
+            </div>
+        </template>
+    </data>
+</odoo>

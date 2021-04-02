@@ -1,0 +1,1279 @@
+<odoo>
+    <data>
+        <template id="duplicate_tax_invoice_print_document">
+            <t t-call="duplicate_tax_invoice_print.duplicate_tax_invoice_print_external_layout">
+                <t t-set="o" t-value="o.with_context({'lang':o.partner_id.lang})"/>
+
+                <div class="page" style="font-size:12px;">
+                    <style>
+                        tr{
+                        page-break-inside: avoid;
+                        }
+                        td{
+                          padding:5px;
+                        }
+                        table {
+                        width: 100%;
+                        }
+                        table.fixed{
+                        table-layout: fixed;
+                        }
+                        table.fixed td {
+                        overflow: hidden;
+                        }
+
+                    </style>
+
+                    <div class="row">
+                        <div class="col-12">
+
+                            <table style="font-size : 12px;" class="fixed">
+                                <col style="width: 6%;"/>
+                                <col style="width: 10%;"/>
+                                <col style="width: 9%;"/>
+                                <col style="width: 7%;"/>
+                                <col style="width: 9%;"/>
+                                <col style="width: 9%;"/>
+
+                                 <col style="width: 8%;"/>
+                                <col style="width: 5%;"/>
+                                <col style="width: 7%;"/>
+                                <col style="width: 10%;"/>
+                                <col style="width: 9%;"/>
+                                <col style="width: 11%;"/>
+                                <tr>
+                                    <td colspan="12"
+                                        style="border:1px solid #b2beb5;border-collapse:collapse;">
+                                        <center>
+                                            <h6>
+
+                                                 <p style="text-align:center;font-size:18px;padding-left:40px;" t-if="o.type == 'out_invoice' ">TAX INVOICE
+                                                    <span style="float:right;font-size:14px;" >(Duplicate)</span>
+                                                    </p>
+<!--                                                <span style="text-align:center;" t-if="o.type == 'out_invoice' ">-->
+<!--                                                    <b>Duplicate TAX INVOICE</b>-->
+<!--                                                </span>-->
+                                                <span style="text-align:center;font-size:18px;"
+                                                      t-if="o.type == 'out_refund'">CREDIT NOTE
+                                                </span>
+                                                <span style="text-align:center;font-size:18px;"
+                                                      t-if="o.type == 'in_refund'">DEBIT NOTE
+                                                </span>
+                                            </h6>
+                                        </center>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="6" style="border-collapse:collapse;border-style: solid;
+                                                border-bottom-style: dashed;border-color:#b2beb5;
+                                                border-width:1px;">
+                                        Invoice No. :<span t-field="o.name"/>
+                                    </td>
+                                    <td colspan="6" style="border-style: solid;border-width: 1px 1px 0px 1px;border-color:#b2beb5;">
+                                        E-way Bill No. :<t t-esc="o.ewaybill_no"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="6" style="border-collapse:collapse;border-style: solid;
+                                                border-bottom-style: dashed;border-color:#b2beb5;
+                                                border-width: 0px 1px 1px 1px;">
+                                        Invoice Date :
+                                        <span t-field="o.invoice_date"
+                                              t-field-options="{&quot;format&quot;: &quot;dd-MM-yyyy&quot;}"/>
+                                    </td>
+                                    <td colspan="6" style="border-style: solid;border-width: 0px 1px 0px 1px;border-color:#b2beb5;">
+                                        Date of Supply : <span t-field="o.invoice_date"
+                                              t-field-options="{&quot;format&quot;: &quot;dd-MM-yyyy&quot;}"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="6" style="border-style: solid;border-width: 0px 1px 0px 1px;border-color:#b2beb5;">
+                                    </td>
+                                    <td colspan="6" style="border-style: solid;border-width: 0px 1px 0px 1px;border-color:#b2beb5;">
+                                        Transportation Mode :<span t-field="o.transportation_mode"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="6" style="border-style: solid;border-width: 0px 1px 1px 1px;border-color:#b2beb5;">
+                                        Tax Is Payable On Reverse Charge:
+                                    </td>
+                                    <td colspan="6" style="border-style: solid;border-width: 0px 1px 1px 1px;border-color:#b2beb5;">
+                                        Vehicle No :<t t-esc="o.vehicle_no"/>
+                                    </td>
+                                </tr>
+<!--                                <tr>-->
+<!--                                    <td colspan="6" style="border:1px solid #b2beb5;border-collapse:collapse;">-->
+<!--                                        Invoice No. :<span t-field="o.name"/>-->
+<!--                                        <br/>-->
+<!--                                        Invoice Date :-->
+<!--                                        <span t-field="o.invoice_date"-->
+<!--                                              t-field-options="{&quot;format&quot;: &quot;dd-MM-yyyy&quot;}"/>-->
+<!--                                        <br/>-->
+<!--                                        <br/>-->
+<!--                                        Tax Is Payable On Reverse Charge:-->
+<!--                                        <br/>-->
+
+<!--                                    </td>-->
+<!--                                    <td colspan="6" style="border:1px solid #b2beb5;border-collapse:collapse;">-->
+<!--                                        E-way Bill No. :-->
+<!--                                        <br/>-->
+<!--                                        Date of Supply :-->
+<!--                                        <br/>-->
+<!--                                        Transportation Mode :-->
+<!--                                        <br/>-->
+<!--                                        Vehicle No :-->
+<!--                                        <br/>-->
+<!--                                    </td>-->
+<!--                                </tr>-->
+                                <tr>
+                                    <td colspan="6" align="center"
+                                        style="border-style: solid;border-width: 1px 1px 0px 1px;border-color:#b2beb5;">
+                                        <b>Bill to Party</b>
+                                    </td>
+                                    <td colspan="6" align="center"
+                                        style="border-style: solid;border-width: 1px 1px 0px 1px;border-color:#b2beb5;">
+                                        <b>Ship to Party</b>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" align="left"
+                                        style="border-style: solid;border-width: 0px 0px 0px 1px;border-color:#b2beb5;padding:0px;padding-left: 10px;">
+                                        Name
+                                    </td>
+                                    <td colspan="4" align="left"
+                                        style="border-style: solid;border-width: 0px 1px 0px 0px;border-color:#b2beb5;padding:0px;padding-left: 10px;">
+                                        <div class="row">
+                                            <div class="col-1">:</div>
+                                            <div class="col-11" style="font-weight:bold;"><t t-esc="o.partner_id.name"/></div>
+                                        </div>
+                                    </td>
+                                    <td colspan="2" align="left"
+                                        style="border-style: solid;border-width: 0px 0px 0px 1px;border-color:#b2beb5;padding:0px;padding-left: 10px;">
+                                        Name
+                                    </td>
+                                    <td colspan="4" align="left"
+                                        style="border-style: solid;border-width: 0px 1px 0px 0px;border-color:#b2beb5;padding:0px;padding-left: 10px;">
+                                        <div class="row">
+                                            <div class="col-1">:</div>
+                                            <div class="col-11" style="font-weight:bold;"><t t-esc="o.partner_shipping_id.name"/></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" align="left"
+                                        style="border-style: solid;border-width: 0px 0px 0px 1px;border-color:#b2beb5;padding:0px;padding-left: 10px;">
+                                        GSTIN
+                                    </td>
+                                    <td colspan="4" align="left"
+                                        style="border-style: solid;border-width: 0px 1px 0px 0px;border-color:#b2beb5;padding:0px;padding-left: 10px;">
+                                        <div class="row">
+                                            <div class="col-1">:</div>
+                                            <div class="col-11" style="font-weight:bold;"><t t-esc="o.partner_id.vat"/></div>
+                                        </div>
+                                    </td>
+                                    <td colspan="2" align="left"
+                                        style="border-style: solid;border-width: 0px 0px 0px 1px;border-color:#b2beb5;padding:0px;padding-left: 10px;">
+                                        GSTIN
+                                    </td>
+                                    <td colspan="4" align="left"
+                                        style="border-style: solid;border-width: 0px 1px 0px 0px;border-color:#b2beb5;padding:0px;padding-left: 10px;">
+                                        <div class="row">
+                                            <div class="col-1">:</div>
+                                            <div class="col-11" style="font-weight:bold;"><t t-esc="o.partner_shipping_id.vat"/></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" align="left"
+                                        style="border-style: solid;border-width: 0px 0px 0px 1px;border-color:#b2beb5;padding:0px;padding-left: 10px;">
+                                        Address
+                                    </td>
+                                    <td colspan="4" align="left"
+                                        style="border-style: solid;border-width: 0px 1px 0px 0px;border-color:#b2beb5;padding:0px;padding-left: 10px;">
+                                        <div class="row">
+                                            <div class="col-1">:</div>
+                                            <div class="col-11">
+                                                <t t-if="o.partner_id.street">
+                                                    <span t-field="o.partner_id.street"/>
+                                                    <br/>
+                                                </t>
+                                                <t t-if="o.partner_id.street2">
+                                                    <span t-field="o.partner_id.street2"/>
+                                                </t>
+                                                <t t-if="o.partner_id.city">
+                                                    <![CDATA[&nbsp;]]> <span t-field="o.partner_id.city"/>
+                                                </t>
+                                                <t t-if="o.partner_id.zip">
+                                                    <![CDATA[&nbsp;]]> <span t-field="o.partner_id.zip"/>
+                                                </t>
+                                                <br/>
+                                                <t t-if="o.partner_id.state_id">
+                                                    <span t-field="o.partner_id.state_id.name"/>
+                                                    <br/>
+                                                </t>
+                                                <t t-if="o.partner_id.country_id">
+                                                    <span t-field="o.partner_id.country_id.name"/>
+                                                </t>
+<!--                                                <span t-field="o.partner_id.name"/>-->
+<!--                                            <span t-field="o.partner_id"-->
+<!--                                                 t-options='{"widget": "contact", "fields": ["address",], "no_marker": True}'/>-->
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td colspan="2" align="left"
+                                        style="border-style: solid;border-width: 0px 0px 0px 1px;border-color:#b2beb5;padding:0px;padding-left: 10px;">
+                                        Address
+                                    </td>
+                                    <td colspan="4" align="left"
+                                        style="border-style: solid;border-width: 0px 1px 0px 0px;border-color:#b2beb5;padding:0px;padding-left: 10px;">
+                                        <div class="row">
+                                            <div class="col-1">:</div>
+                                            <div class="col-11">
+                                                <t t-if="o.partner_shipping_id.street">
+                                                    <span t-field="o.partner_shipping_id.street"/>
+                                                    <br/>
+                                                </t>
+                                                <t t-if="o.partner_shipping_id.street2">
+                                                    <span t-field="o.partner_shipping_id.street2"/>
+                                                </t>
+                                                <t t-if="o.partner_shipping_id.city">
+                                                    <![CDATA[&nbsp;]]> <span t-field="o.partner_shipping_id.city"/>
+                                                </t>
+                                                <t t-if="o.partner_shipping_id.zip">
+                                                    <![CDATA[&nbsp;]]> <span t-field="o.partner_shipping_id.zip"/>
+                                                </t>
+                                                <br/>
+                                                <t t-if="o.partner_shipping_id.state_id">
+                                                    <span t-field="o.partner_shipping_id.state_id.name"/>
+                                                    <br/>
+                                                </t>
+                                                <t t-if="o.partner_shipping_id.country_id">
+                                                    <span t-field="o.partner_shipping_id.country_id.name"/>
+                                                </t>
+<!--                                                <span t-field="o.partner_shipping_id.name"/>-->
+<!--                                                <span t-field="o.partner_shipping_id"-->
+<!--                                                    t-options='{"widget": "contact", "fields": ["address",], "no_marker": True}'/>-->
+                                            </div>
+                                        </div>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" align="left"
+                                        style="border-style: solid;border-width: 0px 0px 0px 1px;border-color:#b2beb5;padding:0px;padding-left: 10px;">
+                                        State
+                                    </td>
+                                    <td colspan="4" align="left"
+                                        style="border-style: solid;border-width: 0px 1px 0px 0px;border-color:#b2beb5;padding:0px;padding-left: 10px;">
+                                        <div class="row">
+                                            <div class="col-1">:</div>
+                                            <div class="col-11"><t t-esc="o.partner_id.state_id.name"/></div>
+                                        </div>
+                                    </td>
+                                    <td colspan="2" align="left"
+                                        style="border-style: solid;border-width: 0px 0px 0px 1px;border-color:#b2beb5;padding:0px;padding-left: 10px;">
+                                        State
+                                    </td>
+                                    <td colspan="4" align="left"
+                                        style="border-style: solid;border-width: 0px 1px 0px 0px;border-color:#b2beb5;padding:0px;padding-left: 10px;">
+                                        <div class="row">
+                                            <div class="col-1">:</div>
+                                            <div class="col-11"><t t-esc="o.partner_shipping_id.state_id.name"/></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" align="left"
+                                        style="border-style: solid;border-width: 0px 0px 0px 1px;border-color:#b2beb5;padding:0px;padding-left: 10px;">
+                                        Phone No.
+                                    </td>
+                                    <td colspan="4" align="left"
+                                        style="border-style: solid;border-width: 0px 1px 0px 0px;border-color:#b2beb5;padding:0px;padding-left: 10px;">
+                                        <div class="row">
+                                            <div class="col-1">:</div>
+                                            <div class="col-11"><t t-esc="o.partner_id.phone"/></div>
+                                        </div>
+                                    </td>
+                                    <td colspan="2" align="left"
+                                        style="border-style: solid;border-width: 0px 0px 0px 1px;border-color:#b2beb5;padding:0px;padding-left: 10px;">
+                                        Phone No.
+                                    </td>
+                                    <td colspan="4" align="left"
+                                        style="border-style: solid;border-width: 0px 1px 0px 0px;border-color:#b2beb5;padding:0px;padding-left: 10px;">
+                                        <div class="row">
+                                            <div class="col-1">:</div>
+                                            <div class="col-11"><t t-esc="o.partner_shipping_id.phone"/></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" align="left"
+                                        style="border-style: solid;border-width: 0px 0px 0px 1px;border-color:#b2beb5;padding:0px;padding-left: 10px;">
+                                        Mobile
+                                    </td>
+                                    <td colspan="4" align="left"
+                                        style="border-style: solid;border-width: 0px 1px 0px 0px;border-color:#b2beb5;padding:0px;padding-left: 10px;">
+                                        <div class="row">
+                                            <div class="col-1">:</div>
+                                            <div class="col-11"><t t-esc="o.partner_id.mobile"/></div>
+                                        </div>
+                                    </td>
+                                    <td colspan="2" align="left"
+                                        style="border-style: solid;border-width: 0px 0px 0px 1px;border-color:#b2beb5;padding:0px;padding-left: 10px;">
+                                        Mobile
+                                    </td>
+                                    <td colspan="4" align="left"
+                                        style="border-style: solid;border-width: 0px 1px 0px 0px;border-color:#b2beb5;padding:0px;padding-left: 10px;">
+                                        <div class="row">
+                                            <div class="col-1">:</div>
+                                            <div class="col-11"><t t-esc="o.partner_shipping_id.mobile"/></div>
+                                        </div>
+                                    </td>
+                                </tr>
+<!--                                <tr>-->
+<!--                                    <td style="border-style: solid;border-width: 0px 1px 1px 1px;border-color:#b2beb5;padding:0px;p"-->
+<!--                                        colspan="6">-->
+<!--                                        <br/>-->
+<!--                                    </td>-->
+<!--                                    <td style="border-style: solid;border-width: 0px 1px 1px 0px;border-color:#b2beb5;padding:0px;"-->
+<!--                                        colspan="6">-->
+<!--                                        <br/>-->
+<!--                                    </td>-->
+<!--                                </tr>-->
+                            </table>
+                            <table style="font-size : 12px;border:1px solid #b2beb5;border-collapse:collapse;" class="fixed">
+                                <col style="width: 6%;"/>
+                                <col style="width: 10%;"/>
+                                <col style="width: 9%;"/>
+                                <col style="width: 7%;"/>
+                                <col style="width: 9%;"/>
+                                <col style="width: 9%;"/>
+
+                                 <col style="width: 8%;"/>
+                                <col style="width: 5%;"/>
+                                <col style="width: 7%;"/>
+                                <col style="width: 10%;"/>
+                                <col style="width: 9%;"/>
+                                <col style="width: 11%;"/>
+                                <thead >
+                                <tr style="border:1px solid #b2beb5;border-collapse:collapse;">
+                                    <td style="border:1px solid #b2beb5;border-collapse:collapse;" align="center">
+                                        <b>Sl No.</b>
+                                    </td>
+                                    <td style="border:1px solid #b2beb5;border-collapse:collapse;" align="center"
+                                        colspan="3">
+                                        <b>Item Name</b>
+                                    </td>
+                                    <td style="border:1px solid #b2beb5;border-collapse:collapse;" align="center">
+                                        <b>HSN</b>
+                                    </td>
+                                    <td style="border:1px solid #b2beb5;border-collapse:collapse;" align="center">
+                                        <b>GST</b>
+                                    </td>
+                                    <td style="border:1px solid #b2beb5;border-collapse:collapse;" align="center">
+                                        <b>Qty</b>
+                                    </td>
+                                    <td style="border:1px solid #b2beb5;border-collapse:collapse;" align="center">
+                                        <b>UoM</b>
+                                    </td>
+                                    <td style="border:1px solid #b2beb5;border-collapse:collapse;" align="center">
+                                        <b>Rate</b>
+                                    </td>
+                                    <td style="border:1px solid #b2beb5;border-collapse:collapse;" align="center">
+                                        <b>Taxable Value</b>
+                                    </td>
+                                    <td style="border:1px solid #b2beb5;border-collapse:collapse;" align="center">
+                                        <b>GST Amount</b>
+                                    </td>
+                                    <td style="border:1px solid #b2beb5;border-collapse:collapse;" align="center">
+                                        <b>Total Amount</b>
+                                    </td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <t t-set="index_val" t-value="1"/>
+                                <t t-set="total_taxable" t-value="0"/>
+                                <t t-set="total_gst" t-value="0"/>
+                                <t t-set="total_amount" t-value="0"/>
+                                <t t-set="round_off" t-value="0"/>
+
+                                <t t-if="o.invoice_cash_rounding_id">
+                                    <t t-foreach="o.invoice_line_ids" t-as="l">
+                                        <t t-if="(l.account_id == o.invoice_cash_rounding_id.account_id) or (l.account_id == o.invoice_cash_rounding_id.loss_account_id)">
+                                            <t t-set="round_off" t-value="round_off+l.price_total"/>
+                                        </t>
+                                        <t t-if="l.account_id != o.invoice_cash_rounding_id.account_id">
+                                            <tr>
+                                                <td align="center"
+                                                    style="border-left: solid 1px #b2beb5;">
+                                                    <t t-esc="index_val"/>
+                                                    <t t-set="index_val" t-value="index_val+1"/>
+                                                </td>
+                                                <td align="left" style="border-left: solid 1px #b2beb5;" colspan="3">
+                                                    <t t-esc="l.product_id.name"/>
+                                                </td>
+                                                <td align="left" style="border-left: solid 1px #b2beb5;">
+                                                    <span t-field="l.product_id.l10n_in_hsn_code"/>
+                                                </td>
+                                                <td align="left" style="border-left: solid 1px #b2beb5;">
+                                                    <span t-esc="', '.join(map(lambda x: (x.description or x.name), l.tax_ids))"/>
+                                                </td>
+                                                <td align="right" style="border-left: solid 1px #b2beb5;">
+                                                    <span t-field="l.quantity"/>
+                                                </td>
+                                                <td align="left" style="border-left: solid 1px #b2beb5;">
+                                                    <span t-field="l.product_uom_id"/>
+                                                </td>
+
+                                                <td align="right" style="border-left: solid 1px #b2beb5;">
+                                                    <span t-field="l.price_unit"/>
+                                                </td>
+                                                <td align="right" style="border-left: solid 1px #b2beb5;">
+                                                    <span t-field="l.price_subtotal"/>
+                                                    <t t-set="total_taxable"
+                                                       t-value="total_taxable+l.price_subtotal"/>
+                                                </td>
+                                                <td align="right" style="border-left: solid 1px #b2beb5;">
+                                                    <span t-esc="(l.price_total-l.price_subtotal)"
+                                                          t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                                    <t t-set="total_gst"
+                                                       t-value="total_gst+(l.price_total-l.price_subtotal)"/>
+                                                </td>
+                                                <td align="right" style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;">
+                                                    <span t-field="l.price_total"/>
+                                                    <t t-set="total_amount" t-value="total_amount+l.price_total"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+
+                                    </t>
+                                </t>
+                                <t t-if=" not o.invoice_cash_rounding_id">
+                                    <t t-foreach="o.invoice_line_ids" t-as="l">
+                                        <tr style="page-break-inside: avoid;">
+                                            <td align="center" style="border-left: solid 1px #b2beb5;">
+                                                <t t-esc="index_val"/>
+                                                <t t-set="index_val" t-value="index_val+1"/>
+                                            </td>
+                                            <td align="left" style="border-left: solid 1px #b2beb5;" colspan="3">
+                                                <t t-esc="l.product_id.name"/>
+                                            </td>
+                                            <td align="left" style="border-left: solid 1px #b2beb5;">
+                                                <span t-field="l.product_id.l10n_in_hsn_code"/>
+                                            </td>
+                                            <td align="left" style="border-left: solid 1px #b2beb5;">
+                                                <span t-esc="', '.join(map(lambda x: (x.description or x.name), l.tax_ids))"/>
+                                            </td>
+                                            <td align="right" style="border-left: solid 1px #b2beb5;">
+                                                <span t-field="l.quantity"/>
+                                            </td>
+                                            <td align="left" style="border-left: solid 1px #b2beb5;">
+                                                <span t-field="l.product_uom_id"/>
+                                            </td>
+                                            <td align="right" style="border-left: solid 1px #b2beb5;">
+                                                <span t-field="l.price_unit"/>
+                                            </td>
+                                            <td align="right" style="border-left: solid 1px #b2beb5;">
+                                                <span t-field="l.price_subtotal"/>
+                                                <t t-set="total_taxable" t-value="total_taxable+l.price_subtotal"/>
+                                            </td>
+                                            <td align="right" style="border-left: solid 1px #b2beb5;">
+                                                <span t-esc="(l.price_total-l.price_subtotal)"
+                                                      t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                                <t t-set="total_gst"
+                                                   t-value="total_gst+(l.price_total-l.price_subtotal)"/>
+                                            </td>
+                                            <td align="right"
+                                                style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;">
+                                                <span t-field="l.price_total"/>
+                                                <t t-set="total_amount" t-value="total_amount+l.price_total"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </t>
+                                <t t-set="length_invoice_line" t-value="0"/>
+                                <t t-if="o.invoice_cash_rounding_id">
+                                    <t t-set="length_invoice_line" t-value="len(o.invoice_line_ids)-1"/>
+                                </t>
+                                <t t-if="not o.invoice_cash_rounding_id">
+                                    <t t-set="length_invoice_line" t-value="len(o.invoice_line_ids)"/>
+                                </t>
+                                <t t-if="length_invoice_line== 1">
+                                    <tr height="250">
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;" colspan="3"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                    </tr>
+                                </t>
+                                <t t-if="length_invoice_line== 2">
+                                    <tr height="220">
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;" colspan="3"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                    </tr>
+                                </t>
+                                <t t-if="length_invoice_line== 3">
+                                    <tr height="190">
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;" colspan="3"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                    </tr>
+                                </t>
+                                <t t-if="length_invoice_line== 4">
+                                    <tr height="160">
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;" colspan="3"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                    </tr>
+                                </t>
+                                <t t-if="length_invoice_line== 5">
+                                    <tr height="110">
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;" colspan="3"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                    </tr>
+                                </t>
+                                <t t-if="length_invoice_line== 6">
+                                    <tr height="70">
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;" colspan="3"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                    </tr>
+                                </t>
+                                <t t-if="length_invoice_line== 7">
+                                    <tr height="40">
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;" colspan="3"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                    </tr>
+                                </t>
+<!--                                <t t-if="length_invoice_line== 8">-->
+<!--                                    <tr height="200">-->
+<!--                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>-->
+<!--                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;" colspan="3"></td>-->
+<!--                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>-->
+<!--                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>-->
+<!--                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>-->
+<!--                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>-->
+<!--                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>-->
+<!--                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>-->
+<!--                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>-->
+<!--                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>-->
+<!--                                    </tr>-->
+<!--                                </t>-->
+                                <t t-if="length_invoice_line== 9">
+                                    <tr height="250">
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;" colspan="3"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                    </tr>
+                                </t>
+                                <t t-if="length_invoice_line== 10">
+                                    <tr height="200">
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;" colspan="3"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                    </tr>
+                                </t>
+                                <t t-if="length_invoice_line== 11">
+                                    <tr height="180">
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;" colspan="3"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                    </tr>
+                                </t>
+                                <t t-if="length_invoice_line== 12">
+                                    <tr height="150">
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;" colspan="3"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                    </tr>
+                                </t>
+                                <t t-if="length_invoice_line== 13">
+                                    <tr height="120">
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;" colspan="3"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                    </tr>
+                                </t>
+                                <t t-if="length_invoice_line== 14">
+                                    <tr height="90">
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;" colspan="3"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                    </tr>
+                                </t>
+                                <t t-if="length_invoice_line== 15">
+                                    <tr height="640">
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;" colspan="3"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                    </tr>
+                                </t>
+                                    <t t-if="length_invoice_line==16">
+                                    <tr height="640">
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;" colspan="3"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                    </tr>
+                                </t>
+                                    <t t-if="length_invoice_line==17">
+                                    <tr height="630">
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;" colspan="3"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                    </tr>
+                                </t>
+                                    <t t-if="length_invoice_line== 18">
+                                    <tr height="640">
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;" colspan="3"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                    </tr>
+                                </t>
+                                    <t t-if="length_invoice_line== 19">
+                                    <tr height="610">
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;" colspan="3"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                    </tr>
+                                </t>
+                                    <t t-if="length_invoice_line== 20">
+                                    <tr height="580">
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;" colspan="3"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                    </tr>
+                                </t>
+                                    <t t-if="length_invoice_line== 21">
+                                    <tr height="550">
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;" colspan="3"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                    </tr>
+                                </t>
+                                    <t t-if="length_invoice_line== 22">
+                                    <tr height="520">
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;" colspan="3"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                    </tr>
+                                </t>
+                                    <t t-if="length_invoice_line== 23">
+                                    <tr height="490">
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;" colspan="3"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                    </tr>
+                                </t>
+                                <t t-if="length_invoice_line==24">
+                                    <tr height="460">
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;" colspan="3"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                    </tr>
+                                </t>
+                                    <t t-if="length_invoice_line==25">
+                                    <tr height="430">
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;" colspan="3"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                    </tr>
+                                </t>
+                                    <t t-if="length_invoice_line==26">
+                                    <tr height="400">
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;" colspan="3"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                    </tr>
+                                </t>
+                                    <t t-if="length_invoice_line==27">
+                                    <tr height="370">
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;" colspan="3"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                    </tr>
+                                </t>
+                                    <t t-if="length_invoice_line==28">
+                                    <tr height="350">
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;" colspan="3"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                    </tr>
+                                </t>
+                                    <t t-if="length_invoice_line==29">
+                                    <tr height="320">
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;" colspan="3"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                    </tr>
+                                </t>
+                                <t t-if="length_invoice_line==30">
+                                    <tr height="290">
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;" colspan="3"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                    </tr>
+                                </t>
+                                    <t t-if="length_invoice_line==31">
+                                    <tr height="260">
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;" colspan="3"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                    </tr>
+                                </t>
+                                    <t t-if="length_invoice_line==32">
+                                    <tr height="230">
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;" colspan="3"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                    </tr>
+                                </t>
+                                    <t t-if="length_invoice_line==33">
+                                    <tr height="200">
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;" colspan="3"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                    </tr>
+                                </t>
+                                    <t t-if="length_invoice_line==34">
+                                    <tr height="170">
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;" colspan="3"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                    </tr>
+                                </t>
+                                <t t-if="length_invoice_line==35">
+                                    <tr height="150">
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;" colspan="3"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                    </tr>
+                                </t>
+                                <t t-if="length_invoice_line==36">
+                                    <tr height="130">
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;" colspan="3"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                    </tr>
+                                </t>
+                                <t t-if="length_invoice_line==37">
+                                    <tr height="100">
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;" colspan="3"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                    </tr>
+                                </t>
+                                <t t-if="length_invoice_line==38">
+                                    <tr height="90">
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;" colspan="3"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                    </tr>
+                                </t>
+                                <t t-if="length_invoice_line==39">
+                                    <tr height="100">
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;" colspan="3"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>
+                                    </tr>
+                                </t>
+<!--                                <t t-if="length_invoice_line==40">-->
+<!--                                    <tr height="10">-->
+<!--                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>-->
+<!--                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;" colspan="3"></td>-->
+<!--                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>-->
+<!--                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>-->
+<!--                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>-->
+<!--                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>-->
+<!--                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>-->
+<!--                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>-->
+<!--                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>-->
+<!--                                        <td style="border-left: solid 1px #b2beb5;border-right: solid 1px #b2beb5;"></td>-->
+<!--                                    </tr>-->
+<!--                                </t>-->
+
+
+                                <tr>
+                                    <td style="border:1px solid #b2beb5;border-collapse:collapse;"></td>
+                                    <td style="border:1px solid #b2beb5;border-collapse:collapse;" colspan="3"><b>Total</b></td>
+                                    <td style="border:1px solid #b2beb5;border-collapse:collapse;"></td>
+                                    <td style="border:1px solid #b2beb5;border-collapse:collapse;"></td>
+                                    <td style="border:1px solid #b2beb5;border-collapse:collapse;"></td>
+                                    <td style="border:1px solid #b2beb5;border-collapse:collapse;"></td>
+                                    <td style="border:1px solid #b2beb5;border-collapse:collapse;"></td>
+                                    <td style="border:1px solid #b2beb5;border-collapse:collapse;font-weight:bold;" align="right">
+                                        <span t-esc="total_taxable"
+                                                  t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                    </td>
+                                    <td style="border:1px solid #b2beb5;border-collapse:collapse;font-weight:bold;" align="right">
+                                        <span t-esc="total_gst"
+                                                  t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                    </td>
+                                    <td style="border:1px solid #b2beb5;border-collapse:collapse;font-weight:bold;" align="right">
+                                        <span t-esc="total_amount"
+                                                  t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <table style="font-size : 12px;" class="fixed">
+                                <col style="width: 6%;"/>
+                                <col style="width: 10%;"/>
+                                <col style="width: 9%;"/>
+                                <col style="width: 7%;"/>
+                                <col style="width: 9%;"/>
+                                <col style="width: 9%;"/>
+
+                                <col style="width: 8%;"/>
+                                <col style="width: 5%;"/>
+                                <col style="width: 7%;"/>
+                                <col style="width: 10%;"/>
+                                <col style="width: 9%;"/>
+                                <col style="width: 11%;"/>
+                                <t t-set="row_count" t-value="0"/>
+                                <tr>
+                                    <td colspan="9" style="border-style: solid;border-width: 1px 0px 0px 1px;border-color:#b2beb5;">Company's Bank Details</td>
+                                    <td colspan="2" style="border-style: solid;border-width: 1px 0px 0px 0px;border-color:#b2beb5;">Taxable Value</td>
+                                    <td align="right" style="border-style: solid;border-width: 1px 1px 0px 0px;border-color:#b2beb5;"><span t-esc="total_taxable"
+                                              t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                    </td>
+                                </tr>
+                                <t t-foreach="o.amount_by_group" t-as="amount_by_group">
+                                    <t t-set="row_count" t-value="row_count+1"/>
+                                    <tr>
+                                        <t t-if="len(o.line_ids.filtered(lambda line: line.tax_line_id)) in [0, 1] and o.amount_untaxed == amount_by_group[2]">
+                                            <t t-if="row_count==1">
+                                                <td colspan="9" style="border-style: solid;border-width: 0px 0px 0px 1px;border-color:#b2beb5;">Bank Name:
+                                                <t t-esc="o.invoice_partner_bank_id.bank_id.name"/>
+                                                </td>
+                                            </t>
+                                            <t t-if="row_count==2">
+                                                <td colspan="9" style="border-style: solid;border-width: 0px 0px 0px 1px;border-color:#b2beb5;">A/c No.:
+                                                <t t-esc="o.invoice_partner_bank_id.acc_number"/>
+                                                </td>
+                                            </t>
+                                            <t t-if="row_count==3">
+                                                <td colspan="9" style="border-style: solid;border-width: 0px 0px 0px 1px;border-color:#b2beb5;">Branch &amp; IFS Code:
+                                                <t t-if="o.invoice_partner_bank_id.bank_id.street">
+                                             <t t-esc="o.invoice_partner_bank_id.bank_id.street"/>
+                                         </t>
+                                         <t t-if="o.invoice_partner_bank_id.bank_id.bic">
+                                               <t t-if="o.invoice_partner_bank_id.bank_id.street">
+                                                   &amp;
+                                               </t>
+
+                                             <t t-esc="o.invoice_partner_bank_id.bank_id.bic"/>
+                                         </t>
+                                                </td>
+                                            </t>
+                                            <t t-if="row_count>=4">
+                                                <td colspan="9" style="border-style: solid;border-width: 0px 0px 0px 1px;border-color:#b2beb5;"></td>
+                                            </t>
+                                            <td align="left" colspan="2">
+                                                <span class="text-nowrap" t-esc="amount_by_group[0]"/>
+                                            </td>
+                                            <td align="right" style="border-style: solid;border-width: 0px 1px 0px 0px;border-color:#b2beb5;">
+                                                <span class="text-nowrap" t-esc="amount_by_group[3]"/>
+                                            </td>
+                                        </t>
+                                        <t t-else="">
+                                            <t t-if="row_count==1">
+                                                <td colspan="9" style="border-style: solid;border-width: 0px 0px 0px 1px;border-color:#b2beb5;">Bank Name:
+                                                <t t-esc="o.invoice_partner_bank_id.bank_id.name"/>
+                                                </td>
+                                            </t>
+                                            <t t-if="row_count==2">
+                                                <td colspan="9" style="border-style: solid;border-width: 0px 0px 0px 1px;border-color:#b2beb5;">A/c No.:
+                                                <t t-esc="o.invoice_partner_bank_id.acc_number"/>
+                                                </td>
+                                            </t>
+                                            <t t-if="row_count==3">
+                                                <td colspan="9" style="border-style: solid;border-width: 0px 0px 0px 1px;border-color:#b2beb5;">Branch &amp; IFS Code:
+                                                <t t-if="o.invoice_partner_bank_id.bank_id.street">
+                                             <t t-esc="o.invoice_partner_bank_id.bank_id.street"/>
+                                         </t>
+                                         <t t-if="o.invoice_partner_bank_id.bank_id.bic">
+                                               <t t-if="o.invoice_partner_bank_id.bank_id.street">
+                                                   &amp;
+                                               </t>
+
+                                             <t t-esc="o.invoice_partner_bank_id.bank_id.bic"/>
+                                         </t>
+                                                </td>
+                                            </t>
+                                            <t t-if="row_count>=4">
+                                                <td colspan="9" style="border-style: solid;border-width: 0px 0px 0px 1px;border-color:#b2beb5;"></td>
+                                            </t>
+                                            <td align="left" colspan="2">
+                                                <span t-esc="amount_by_group[0]"/>
+                                            </td>
+                                            <td align="right" style="border-style: solid;border-width: 0px 1px 0px 0px;border-color:#b2beb5;">
+                                                <span class="text-nowrap" t-esc="amount_by_group[3]"/>
+                                            </td>
+                                        </t>
+                                    </tr>
+                                </t>
+                                <tr>
+                                    <t t-if="row_count==0">
+                                        <td colspan="9" style="border-style: solid;border-width: 0px 0px 0px 1px;border-color:#b2beb5;">Bank Name:
+                                        <t t-esc="o.invoice_partner_bank_id.bank_id.name"/>
+                                        </td>
+                                    </t>
+                                    <t t-if="row_count==1">
+                                        <td colspan="9" style="border-style: solid;border-width: 0px 0px 0px 1px;border-color:#b2beb5;">A/c No.:
+                                        <t t-esc="o.invoice_partner_bank_id.acc_number"/>
+                                        </td>
+                                    </t>
+                                    <t t-if="row_count==2">
+                                        <td colspan="9" style="border-style: solid;border-width: 0px 0px 0px 1px;border-color:#b2beb5;">Branch &amp; IFS Code:
+                                        <t t-if="o.invoice_partner_bank_id.bank_id.street">
+                                             <t t-esc="o.invoice_partner_bank_id.bank_id.street"/>
+                                         </t>
+                                         <t t-if="o.invoice_partner_bank_id.bank_id.bic">
+                                               <t t-if="o.invoice_partner_bank_id.bank_id.street">
+                                                   &amp;
+                                               </t>
+
+                                             <t t-esc="o.invoice_partner_bank_id.bank_id.bic"/>
+                                         </t>
+                                        </td>
+                                    </t>
+                                    <t t-if="row_count>=3">
+                                        <td colspan="9" style="border-style: solid;border-width: 0px 0px 0px 1px;border-color:#b2beb5;"></td>
+                                    </t>
+                                    <td colspan="2">Discount</td>
+                                    <td align="right" style="border-style: solid;border-width: 0px 1px 0px 0px;border-color:#b2beb5;">
+<!--                                        <span t-field="o.ks_amount_discount"/>-->
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <t t-if="row_count==0">
+                                        <td colspan="9" style="border-style: solid;border-width: 0px 0px 0px 1px;border-color:#b2beb5;">A/c No.:
+                                        <t t-esc="o.invoice_partner_bank_id.acc_number"/>
+                                        </td>
+                                    </t>
+                                    <t t-if="row_count==1">
+                                        <td colspan="9" style="border-style: solid;border-width: 0px 0px 0px 1px;border-color:#b2beb5;">Branch &amp; IFS Code:
+                                        <t t-if="o.invoice_partner_bank_id.bank_id.street">
+                                             <t t-esc="o.invoice_partner_bank_id.bank_id.street"/>
+                                         </t>
+                                         <t t-if="o.invoice_partner_bank_id.bank_id.bic">
+                                               <t t-if="o.invoice_partner_bank_id.bank_id.street">
+                                                   &amp;
+                                               </t>
+
+                                             <t t-esc="o.invoice_partner_bank_id.bank_id.bic"/>
+                                         </t>
+                                        </td>
+                                    </t>
+                                    <t t-if="row_count>=2">
+                                        <td colspan="9" style="border-style: solid;border-width: 0px 0px 0px 1px;border-color:#b2beb5;"></td>
+                                    </t>
+                                    <td colspan="2">Round off</td>
+                                    <td align="right" style="border-style: solid;border-width: 0px 1px 0px 0px;border-color:#b2beb5;">
+                                        <span t-esc="round_off"
+                                              t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td colspan="11" style="border-style: solid;border-width: 0px 0px 0px 1px;border-color:#b2beb5;font-size:16px;">
+                                        <span style="font-weight:bold;">
+                                            Grand Total</span>
+                                    </td>
+                                    <td style="border-style: solid;border-width: 0px 1px 0px 0px;border-color:#b2beb5;font-size:16px;">
+                                        <span style="font-weight:bold;"
+                                              t-field="o.amount_total"/>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td colspan="12" style="border-style: solid;border-width: 1px;border-color:#b2beb5;font-size:14px;">
+                                        Total Amount in Rupees :<t t-esc="o.currency_id.amount_to_text(o.amount_total)"/>
+                                        <![CDATA[&nbsp;]]>Only
+                                    </td>
+                                </tr>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+        <template id="report_duplicate_tax_invoice_print">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="duplicate_tax_invoice_print.duplicate_tax_invoice_print_document" t-lang="o.partner_id.lang"/>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>
