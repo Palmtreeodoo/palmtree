@@ -1,0 +1,47 @@
+
+<odoo>
+  <data>
+
+
+
+       <record id="update_product_company_view" model="ir.ui.view">
+            <field name="name">Update product Company</field>
+            <field name="model">update.product.company</field>
+            <field name="arch" type="xml">
+                <form>
+<!--                    <group>-->
+<!--                        <group>-->
+<!--                            <field name="state"/>-->
+<!--                        </group>-->
+<!--                    </group>-->
+                    <footer>
+                        <button name="update_state" string="Update" type="object"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+
+       <record id="update_product_company_action" model="ir.actions.act_window">
+        <field name="name">Update product Company</field>
+        <field name="res_model">update.product.company</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="update_product_company_view"/>
+        <field name="target">new</field>
+    </record>
+
+
+      <menuitem id="update_product_company_for_action_window" name="Update"
+                  parent="sale.product_menu_catalog" action="update_product_company_action"/>
+
+
+
+
+
+
+
+
+  </data>
+</odoo>
