@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api
+from num2words import num2words
 
 class ResCompany(models.Model):
     _inherit = 'res.company'
@@ -37,6 +38,17 @@ class AccounMove(models.Model):
         help="E-Way Bill Attachment"
     )
 
+    def _get_amount(self):
+        # amt='100000'
+        # amount_in_word = num2words().convertNumberToWords(amt)
+        amount_in_word = num2words(self.amount_total, lang='en_IN')
+
+        return amount_in_word
+    # @api.depends('amount_total')
+    # def amount_to_words(self):
+    #     if self.company_id.text_amount_language_currency:
+    #         self.text_amount = num2words(self.amount_total, to='currency',
+    #                                      lang=self.company_id.text_amount_language_currency)
 
 class SaleOrder(models.Model):
     _inherit = "sale.order"

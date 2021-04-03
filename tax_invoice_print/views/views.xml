@@ -1253,7 +1253,7 @@
 
                                 <tr>
                                     <td colspan="12" style="border-style: solid;border-width: 1px;border-color:#b2beb5;font-size:14px;">
-                                        Total Amount in Rupees :<t t-esc="o.currency_id.amount_to_text(o.amount_total)"/>
+                                        Total Amount in Rupees :<t t-esc="o._get_amount()"/>
                                         <![CDATA[&nbsp;]]>Only
                                     </td>
                                 </tr>
