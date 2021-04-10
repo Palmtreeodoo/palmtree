@@ -132,6 +132,11 @@ class StockPicking(models.Model):
         help="Remarks to update vehicle-no"
     )
 
+    sub_supply_desc= fields.Char(
+        string="sub Supply Description",
+
+    )
+
     @api.onchange('transporter_id')
     def onchangeTransporterId(self):
         if self.transporter_id:
@@ -179,6 +184,7 @@ class StockPicking(models.Model):
                 'userGstin': companyObj.vat or '',
                 'supplyType': stockObj.supply_type or 'I',
                 'subSupplyType': int(stockObj.sub_supply_type or 1),
+                "subSupplyDesc": stockObj.sub_supply_desc or '',
                 'docType': 'OTH',
                 'docNo': stockObj.name or '',
                 'docDate': orderJsonDate,

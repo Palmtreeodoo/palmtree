@@ -46,6 +46,7 @@
               <group>
                 <field name="eway_destination"/>
                 <field name="sub_supply_type"/>
+                  <field name="sub_supply_desc" attrs="{'required': [('sub_supply_type', '=', '8')]}"/>
                 <field name="transporter_id" options="{'no_create': True}" groups="gst_ewaybill.group_gst_ewaybill_admin,gst_ewaybill.group_gst_ewaybill_user"/>
                 <field name="trans_id"/>
               </group>

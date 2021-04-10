@@ -94,6 +94,7 @@ class SaleOrder(models.Model):
         help="Place of consignor"
     )
 
+
     @api.onchange('partner_id')
     def _default_eway_destination(self):
         if self.partner_id:
@@ -141,6 +142,10 @@ class SaleOrder(models.Model):
 
     invoice_id_eway = fields.Many2one('account.move', string='Invoices', )
 
+    sub_supply_desc = fields.Char(
+        string="Sub Supply Description",
+
+    )
 
     @api.onchange('generate_ewaybill')
     def get_domain_invoice(self):
@@ -200,6 +205,7 @@ class SaleOrder(models.Model):
                 'userGstin': companyObj.vat or '',
                 'supplyType': saleObj.supply_type or 'I',
                 'subSupplyType': int(saleObj.sub_supply_type or 1),
+                "subSupplyDesc": saleObj.sub_supply_desc or '',
                 'docType': 'INV',
                 'docNo': saleObj.invoice_id_eway.name or '',
                 'docDate': orderJsonDate,
