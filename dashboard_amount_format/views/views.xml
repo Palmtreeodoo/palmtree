@@ -1,0 +1,12 @@
+<odoo>
+  <data>
+   <template id="assets_backend_dashboard" name="Dashboard assets inherit" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/dashboard_amount_format/static/src/js/dashboard.js"/>
+            <script type="text/javascript" src="/dashboard_amount_format/static/src/js/field.js"/>
+
+
+        </xpath>
+    </template>
+  </data>
+</odoo>
