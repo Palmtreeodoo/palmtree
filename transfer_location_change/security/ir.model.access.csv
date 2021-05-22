@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_transfer_location_change_transfer_location_change,transfer_location_change.transfer_location_change,model_transfer_location_change_transfer_location_change,base.group_user,1,1,1,1
