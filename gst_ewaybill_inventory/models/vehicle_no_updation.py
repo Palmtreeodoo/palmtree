@@ -8,6 +8,7 @@ listedReasons = [
     ('3', 'Not updated earlier')
 ]
 
+
 class VehicleNoUpdation(models.TransientModel):
     _inherit = "vehicle.no.updation"
 
