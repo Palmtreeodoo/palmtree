@@ -46,7 +46,8 @@ class SmsBase(models.AbstractModel):
     def send_now(self):
         signature = self.env['res.users'].sudo().browse(self._uid).signature
         for obj in self:
-            body = obj.msg + '\n' + signature
+            # body = obj.msg + '\n' + signature
+            body = obj.msg 
             body_sms = re.sub("<.*?>", " ", body)
             mob_no = [obj.to]
             obj.with_context(action='send').send_sms_via_gateway(
