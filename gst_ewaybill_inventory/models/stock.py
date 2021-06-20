@@ -228,7 +228,7 @@ class StockPicking(models.Model):
             }
             stockJsonList.append(stockJsonData)
         jsonData = {
-            'version': '1.0.1118',
+            'version': '1.0.0421',
             'billLists': stockJsonList
         }
         jsonAttachment = self.generatejsonAttachment(jsonData, "ewaybillgst.json")

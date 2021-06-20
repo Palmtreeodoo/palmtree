@@ -248,7 +248,7 @@ class SaleOrder(models.Model):
             }
             saleJsonList.append(saleJsonData)
         jsonData = {
-            'version': '1.0.1118',
+            'version': '1.0.0421',
             'billLists': saleJsonList
         }
         jsonAttachment = self.generatejsonAttachment(jsonData, "ewaybillgst.json")
