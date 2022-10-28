@@ -12,6 +12,7 @@ listedReasons = [
     ('3', 'Not updated earlier')
 ]
 
+
 class StockPicking(models.Model):
     _inherit = 'stock.picking'
 
@@ -132,7 +133,7 @@ class StockPicking(models.Model):
         help="Remarks to update vehicle-no"
     )
 
-    sub_supply_desc= fields.Char(
+    sub_supply_desc = fields.Char(
         string="sub Supply Description",
 
     )
@@ -158,7 +159,7 @@ class StockPicking(models.Model):
         stockJsonList = []
         notewaylist = list(set(stockIds) - set(stockObjs.ids))
         for stockObj in stockObjs:
-            partnerObj = stockObj.partner_id if stockObj.partner_id else stockObj.location_dest_id.company_id.partner_id
+            partnerObj = stockObj.partner_id if stockObj.partner_id else stockObj.location_dest_id.operating_unit_id.partner_id
             currency = stockObj.currency_id
             amountTotal = stockObj.amount_untaxed
             totalamount = stockObj.amount_total
@@ -178,7 +179,7 @@ class StockPicking(models.Model):
 
             orderJsonDate = stockObj.scheduled_date.strftime('%d/%m/%Y')
             transporterDate = transporterObj.transporter_date.strftime('%d/%m/%Y') if transporterObj.transporter_date else ""
-            companyObj = stockObj.location_id.company_id.partner_id
+            companyObj = stockObj.location_id.operating_unit_id.partner_id
             stockJsonData = {
                 # 'genMode':'Excel',
                 'userGstin': companyObj.vat or '',

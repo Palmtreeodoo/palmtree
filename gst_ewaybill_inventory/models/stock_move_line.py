@@ -63,6 +63,7 @@ class StockPicking(models.Model):
         for order in self:
             order.move_line_ids_without_package._compute_tax_id()
 
+
 class StockMove(models.Model):
     _inherit = 'stock.move'
 
